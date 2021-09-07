@@ -1,0 +1,99 @@
+import 'dart:ui' as ui;
+
+import 'package:dash_painter/dash_painter.dart';
+import 'package:flutter/material.dart';
+
+import 'line.dart';
+
+class AnglePainter extends CustomPainter {
+  final DashPainter dashPainter = const DashPainter(span: 4, step: 4);
+  ui.Image? image;
+
+  AnglePainter({required this.line, this.image}) : super(repaint: line);
+
+  final Paint helpPaint = Paint()
+    ..style = PaintingStyle.stroke
+    ..color = Colors.lightBlue
+    ..strokeWidth = 1;
+
+  final TextPainter textPainter = TextPainter(
+    textAlign: TextAlign.center,
+    textDirection: TextDirection.ltr,
+  );
+
+  final Line line;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.translate(size.width / 2, size.height / 2);
+    line.paint(canvas);
+    // drawHelp(canvas, size);
+
+    if (image != null) {
+      canvas.drawImage(
+          image!, Offset(-image!.width / 2, -image!.height / 2), Paint());
+      // drawHelp(canvas, Size(image!.width.toDouble() , image!.height.toDouble()));
+    }
+  }
+
+  void drawHelp(Canvas canvas, Size size) {
+
+    Path helpPath = Path()
+      ..moveTo(-size.width / 2, 0)
+      ..relativeLineTo(size.width, 0)
+      ..moveTo(0, -size.height / 2)
+      ..relativeLineTo(0, size.height);
+
+    dashPainter.paint(canvas, helpPath, helpPaint);
+
+    // drawHelpText('0°', canvas, Offset(size.width / 2 - 20, 0));
+    // drawHelpText('p0', canvas, line.start.translate(-20, 0));
+    // drawHelpText('p1', canvas, line.end.translate(-20, 0));
+    //
+    // drawHelpText(
+    //   '角度: ${(line.positiveRad * 180 / pi).toStringAsFixed(2)}°',
+    //   canvas,
+    //   Offset(
+    //     -size.width / 2 + 10,
+    //     -size.height / 2 + 10,
+    //   ),
+    // );
+
+    // canvas.drawArc(
+    //   Rect.fromCenter(center: line.start, width: 20, height: 20),
+    //   0,
+    //   line.positiveRad,
+    //   false,
+    //   helpPaint,
+    // );
+
+    // canvas.save();
+    // Offset center = const Offset(60, 60);
+    // canvas.translate(center.dx, center.dy);
+    // canvas.rotate(line.positiveRad);
+    // canvas.translate(-center.dx, -center.dy);
+    // canvas.drawCircle(center, 4, helpPaint);
+    // canvas.drawRect(
+    //     Rect.fromCenter(center: center, width: 30, height: 60), helpPaint);
+    // canvas.restore();
+  }
+
+  void drawHelpText(
+    String text,
+    Canvas canvas,
+    Offset offset, {
+    Color color = Colors.lightBlue,
+  }) {
+    textPainter.text = TextSpan(
+      text: text,
+      style: TextStyle(fontSize: 12, color: color),
+    );
+    textPainter.layout(maxWidth: 200);
+    textPainter.paint(canvas, offset);
+  }
+
+  @override
+  bool shouldRepaint(covariant AnglePainter oldDelegate) {
+    return oldDelegate.image != image;
+  }
+}
