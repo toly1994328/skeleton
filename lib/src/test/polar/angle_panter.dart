@@ -54,8 +54,7 @@ class AnglePainter extends CustomPainter {
       ..relativeLineTo(0, size.height);
 
     for (int i = 0; i < 5; i++) {
-      helpPath.addOval(Rect.fromCenter(
-          center: Offset.zero, width: 50.0 * i, height: 50.0 * i));
+      helpPath.addOval(Rect.fromCenter(center: Offset.zero, width: 50.0 * i, height: 50.0 * i));
       drawHelpText('${25 * i}', canvas, Offset(25.0 * i - 10, 0));
     }
 
