@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
@@ -22,23 +21,12 @@ class AnglePainter extends CustomPainter {
   );
 
   final Line line;
-  List<Offset> points = [];
-
-
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.translate(size.width / 2, size.height / 2);
     drawHelp(canvas, size);
     line.paint(canvas);
-
-    // Line line2 = line.fromAngle((45/180*pi), 80)..paint(canvas);
-    // Line line3 = line.resultant(line2)..paint(canvas);
-
-    Line line2 = Line(start: line.end,end:line.end.translate(100, 100))..paint(canvas);
-    points.add(line2.end);
-    points.add(line.end);
-    canvas.drawPoints(PointMode.points, points, Paint()..strokeWidth=2..style=PaintingStyle.stroke);
   }
 
   void drawHelp(Canvas canvas, Size size) {

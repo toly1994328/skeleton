@@ -45,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  Line line = Line(start: Offset(20, 20), end: const Offset(50, 80));
+  Line line = Line(start: const Offset(20, 20), end: const Offset(50, 80));
 
   late AnimationController ctrl;
 
@@ -67,9 +67,6 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-    // line.start = Offset.zero;
-    // line.end = Offset(40, 0);
-    // line.rotate(2.4085543677521746);
 
     return Scaffold(
       body: Center(

@@ -1,10 +1,12 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
 
 import 'line.dart';
+import 'point.dart';
+
 
 class AnglePainter extends CustomPainter {
   final DashPainter dashPainter = const DashPainter(span: 4, step: 4);
@@ -30,15 +32,28 @@ class AnglePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.translate(size.width / 2, size.height / 2);
     drawHelp(canvas, size);
-    line.paint(canvas);
+    line.paintLine(canvas);
+    line.paintHelp(canvas);
+    Offset center = (line.start+line.end)/2;
+    Point point = Point(center.dx,center.dy);
+    point.paint(canvas);
 
-    // Line line2 = line.fromAngle((45/180*pi), 80)..paint(canvas);
-    // Line line3 = line.resultant(line2)..paint(canvas);
+    // Line l2= Line.fromRad(start: center, rad: 45*math.pi/180, len: 100);
+    Line l2 = line.branch(rad: 45*math.pi/180, percent: 0.5, len: 100);
+    l2.paintLine(canvas);
+    Point point2 = Point(l2.end.dx,l2.end.dy);
+    point2.paint(canvas);
 
-    Line line2 = Line(start: line.end,end:line.end.translate(100, 100))..paint(canvas);
-    points.add(line2.end);
-    points.add(line.end);
-    canvas.drawPoints(PointMode.points, points, Paint()..strokeWidth=2..style=PaintingStyle.stroke);
+    Line l3 = line.branch(rad: -45*math.pi/180, percent: 0.8, len: 100);
+    l3.paintLine(canvas);
+    l3.paintHelp(canvas);
+
+    // Line l4 = line.branch(rad: -25*math.pi/180, percent: 0.2, len: 50);
+    // l4.paintLine(canvas);
+    // l4.paintHelp(canvas);
+
+    // Point point3 = Point(l3.end.dx,l3.end.dy);
+    // point3.paint(canvas);
   }
 
   void drawHelp(Canvas canvas, Size size) {
@@ -54,7 +69,7 @@ class AnglePainter extends CustomPainter {
     drawHelpText('p1', canvas, line.end.translate(-20, 0));
 
     drawHelpText(
-      '角度: ${(line.positiveRad * 180 / pi).toStringAsFixed(2)}°',
+      '角度: ${(line.positiveRad * 180 / math.pi).toStringAsFixed(2)}°',
       canvas,
       Offset(
         -size.width / 2 + 10,

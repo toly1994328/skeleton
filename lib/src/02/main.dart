@@ -46,7 +46,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
 
-  Line line = Line(start: Offset.zero, end: const Offset(40, 0));
+  Line line = Line(start: Offset(20,20), end: const Offset(50, 80));
 
   late AnimationController ctrl;
 
@@ -68,14 +68,22 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
+    // line.start = Offset.zero;
+    // line.end = Offset(40, 0);
+    // line.rotate(2.4085543677521746);
+
     return Scaffold(
       body: Center(
         child: GestureDetector(
           onTap: () {
+            // line.record();
             ctrl.forward(from: 0);
           },
-          child: CustomPaint(
-            painter: PolarPainter(),
+          child:
+          CustomPaint(
+            painter: AnglePainter(line: line
+              // linker: linker
+            ),
             child: Container(
               color: Colors.grey.withOpacity(0.1),
               height: 200,
@@ -88,22 +96,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _updateLine() {
-    line.rotate(ctrl.value * 2 * pi);
-  }
-}
-
-class PolarPainterWidget extends StatelessWidget {
-  const PolarPainterWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: PolarPainter(),
-      child: Container(
-        color: Colors.grey.withOpacity(0.1),
-        height: 200,
-        width: 200,
-      ),
-    );
+    // print("${ctrl.value * 2 * pi}");
+    line.rotate(ctrl.value * 2* pi);
   }
 }

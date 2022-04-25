@@ -3,13 +3,10 @@ import 'dart:math';
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'line.dart';
 import 'polar.dart';
 
-class AnglePainter extends CustomPainter {
+class PolarPainter extends CustomPainter {
   final DashPainter dashPainter = const DashPainter(span: 4, step: 4);
-
-  AnglePainter({required this.line}) : super(repaint: line);
 
   final Paint helpPaint = Paint()
     ..style = PaintingStyle.stroke
@@ -23,17 +20,14 @@ class AnglePainter extends CustomPainter {
     textDirection: TextDirection.ltr,
   );
 
-  final Line line;
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.translate(size.width / 2, size.height / 2);
     drawHelp(canvas, size);
-    // canvas.drawCircle(p1.offset, 4, Paint());
     collect().forEach((element) {
       canvas.drawCircle(element.offset, 1, Paint());
     });
-    // line.paint(canvas);
   }
 
   List<Polar2D> collect() {
@@ -68,37 +62,6 @@ class AnglePainter extends CustomPainter {
         color: Colors.black);
     drawHelpText('0°', canvas, Offset(size.width / 2 + 10, 0 - 8),
         color: Colors.black);
-
-    // canvas.drawLine(Offset.zero, p1.offset, Paint()..color=Colors.orange);
-
-    // drawHelpText('p1', canvas, line.end.translate(-20, 0));
-
-    // drawHelpText(
-    //   '角度: ${(line.positiveRad * 180 / pi).toStringAsFixed(2)}°',
-    //   canvas,
-    //   Offset(
-    //     -size.width / 2 + 10,
-    //     -size.height / 2 + 10,
-    //   ),
-    // );
-
-    // canvas.drawArc(
-    //   Rect.fromCenter(center: Offset.zero, width: 20, height: 20),
-    //   0,
-    //   line.positiveRad,
-    //   false,
-    //   helpPaint,
-    // );
-
-    // canvas.save();
-    // Offset center = const Offset(60, 60);
-    // canvas.translate(center.dx, center.dy);
-    // canvas.rotate(line.positiveRad);
-    // canvas.translate(-center.dx, -center.dy);
-    // canvas.drawCircle(center, 4, helpPaint);
-    // canvas.drawRect(
-    //     Rect.fromCenter(center: center, width: 30, height: 60), helpPaint);
-    // canvas.restore();
   }
 
   void drawHelpText(
