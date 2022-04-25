@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'sdk/line.dart';
-import 'sdk/muses.dart';
+import '../sdk/line.dart';
+import '../sdk/muses.dart';
 
 class Node {
   final String text;
@@ -46,9 +46,9 @@ class Config {
 }
 
 class GeometryPainter extends CustomPainter {
-  final Animation<double> progress;
+  final ValueNotifier<Config> config;
 
-  GeometryPainter({required this.progress}) : super(repaint: progress);
+  GeometryPainter({required this.config}) : super(repaint: config);
 
   final DashPainter dashPainter = const DashPainter(span: 4, step: 4);
 
@@ -62,7 +62,7 @@ class GeometryPainter extends CustomPainter {
     textDirection: TextDirection.ltr,
   );
 
-  Line line = Line(start: const Offset(-100, 0), end: const Offset(-60, 0));
+  Line line = Line(start: const Offset(0, -80), end: const Offset(0, -40));
   List<Offset> points = [];
   final Muses _muses = Muses();
 
@@ -105,50 +105,23 @@ class GeometryPainter extends CustomPainter {
     drawHelp(canvas, size);
 
     line.paint(canvas);
-    _muses.markNode(line, '8');
+    _muses.markNode(line, '10');
+    Node l1 = appendChild(Node('9', true, line,paintEnd: false), -135);
+    Node l2 = appendChild(Node('14', false, l1.line, ), 135 + 45, atStart: true);
+    Node l3 = appendChild(Node('24', true, l2.line,), 135 + 45);
+    Node l4 = appendChild(Node('6', false, l1.line, ), 90, atStart: true);
+    Node l5 = appendChild(Node('4', true, l4.line, ), -135+45);
+    Node l6 = appendChild(Node('3', true, l4.line,), 135+45);
 
-    double len= progress.value*60;
-    for(int i=0;i<1;i++){
-      double angle = 45-10.0*i;
-      Line l1 =line.branch(rad: angle/180*math.pi, percent: 1, len: -len/math.cos(angle/180*math.pi));
-      _muses.markCurveLine(l1);
-      Line l2 =line.branch(rad: -angle/180*math.pi, percent: 1, len: -len/math.cos(-angle/180*math.pi));
-      _muses.markCurveLine(l2);
-    }
-
-    // Line l2 =line.branch(rad: 45/180*math.pi, percent: 1, len: -60/math.cos(45/180*math.pi));
-    // _muses.markCurveLine(l2);
-    // Line l3 =line.branch(rad: -45/180*math.pi, percent: 1, len: -60/math.cos(-45/180*math.pi));
-    // _muses.markCurveLine(l3);
-    //
-    //
-    // Line l4 =line.branch(rad: 35/180*math.pi, percent: 1, len: -60/math.cos(35/180*math.pi));
-    // _muses.markCurveLine(l4);
-    //
-    // Line l5 =line.branch(rad: -35/180*math.pi, percent: 1, len: -60/math.cos(-35/180*math.pi));
-    // _muses.markCurveLine(l5);
-    // Line l6 =line.branch(rad: -25/180*math.pi, percent: 1, len: -60/math.cos(-25/180*math.pi));
-    // _muses.markCurveLine(l6);
-    //
-    // Line l7 =line.branch(rad: 25/180*math.pi, percent: 1, len: -60/math.cos(25/180*math.pi));
-    // _muses.markCurveLine(l7);
-
-    // Node l1 = appendChild(Node('9', true, line,paintEnd: false), -135);
-    // Node l2 = appendChild(Node('14', false, l1.line, ), 135 + 45, atStart: true);
-    // Node l3 = appendChild(Node('24', true, l2.line,), 135 + 45);
-    // Node l4 = appendChild(Node('6', false, l1.line, ), 90, atStart: true);
-    // Node l5 = appendChild(Node('4', true, l4.line, ), -135+45);
-    // Node l6 = appendChild(Node('3', true, l4.line,), 135+45);
-
-    // nodes.addAll([
-    //   l6,
-    //   l5,
-    //   l3,
-    //   l2,
-    //   l4,
-    //   l1,
-    // ]);
-    // drawNode();
+    nodes.addAll([
+      l6,
+      l5,
+      l3,
+      l2,
+      l4,
+      l1,
+    ]);
+    drawNode();
 
     // Line l7 = line.branch(
     //   rad: (-135) * math.pi / 180,

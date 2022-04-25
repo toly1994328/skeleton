@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'sdk/line.dart';
-import 'sdk/muses.dart';
+import '../sdk/line.dart';
+import '../sdk/muses.dart';
 
 class Node {
   final String text;
