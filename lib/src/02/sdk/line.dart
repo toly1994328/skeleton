@@ -27,13 +27,11 @@ class Line with ChangeNotifier {
     required double percent,
     required double len,
   }) {
-    Offset start = this.percent(percent);
-    Offset newEnd = Offset(
-          len * cos(this.rad + rad + pi),
-          len * sin(this.rad + rad + pi),
-        ) + start;
-
-    return Line(start: start, end: newEnd);
+    Offset q0 = this.percent(percent);
+    double dx = len * cos(this.rad + rad );
+    double dy = len * sin(this.rad + rad );
+    Offset q1 = Offset(q0.dx-dx, q0.dy-dy) ;
+    return Line(start: q0, end: q1);
   }
 
   Offset percent(double percent) {
@@ -78,17 +76,17 @@ class Line with ChangeNotifier {
     canvas.restore();
   }
 
-  void paintLine(Canvas canvas) {
-    canvas.drawLine(start, end, pointPaint);
+  void paint(Canvas canvas,{Color color=Colors.black}) {
+    canvas.drawLine(start, end, pointPaint..color=color);
   }
 
-  void paintHelp(Canvas canvas) {
-    Paint paint = Paint()..color = pointPaint.color;
-    canvas.drawCircle(start, 4, paint..style = PaintingStyle.stroke);
-    canvas.drawCircle(start, 2, paint..style = PaintingStyle.fill);
-    canvas.drawCircle(end, 4, paint..style = PaintingStyle.stroke);
-    canvas.drawCircle(end, 2, paint..style = PaintingStyle.fill);
-  }
+  // void paintHelp(Canvas canvas) {
+  //   Paint paint = Paint()..color = pointPaint.color;
+  //   canvas.drawCircle(start, 4, paint..style = PaintingStyle.stroke);
+  //   canvas.drawCircle(start, 2, paint..style = PaintingStyle.fill);
+  //   canvas.drawCircle(end, 4, paint..style = PaintingStyle.stroke);
+  //   canvas.drawCircle(end, 2, paint..style = PaintingStyle.fill);
+  // }
 
   double get rad => (end - start).direction;
 

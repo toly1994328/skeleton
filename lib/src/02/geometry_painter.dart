@@ -4,14 +4,44 @@ import 'dart:ui';
 import 'package:dash_painter/dash_painter.dart';
 import 'package:flutter/material.dart';
 
-import 'line.dart';
-import 'point.dart';
+import 'sdk/line.dart';
+import 'sdk/muses.dart';
+import 'sdk/point.dart';
 
+class Config {
+  final double len;
+  final double angle;
+  final double percent;
 
-class AnglePainter extends CustomPainter {
+  Config({
+    required this.len,
+    required this.angle,
+    required this.percent,
+  });
+
+  Config copyWith({
+    double? len,
+    double? angle,
+    double? percent,
+  }) {
+    return Config(
+      len: len ?? this.len,
+      angle: angle ?? this.angle,
+      percent: percent ?? this.percent,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Config{len: $len, angle: $angle, percent: $percent}';
+  }
+}
+
+class GeometryPainter extends CustomPainter {
   final DashPainter dashPainter = const DashPainter(span: 4, step: 4);
+  final ValueNotifier<Config> config;
 
-  AnglePainter({required this.line}) : super(repaint: line);
+  GeometryPainter({required this.config}) : super(repaint: config);
 
   final Paint helpPaint = Paint()
     ..style = PaintingStyle.stroke
@@ -23,30 +53,49 @@ class AnglePainter extends CustomPainter {
     textDirection: TextDirection.ltr,
   );
 
-  final Line line;
+  Line line = Line(start: const Offset(20, 20), end: const Offset(50, 80));
   List<Offset> points = [];
-
-
+  final Muses _muses = Muses();
 
   @override
   void paint(Canvas canvas, Size size) {
+    _muses.attach(canvas);
+
     canvas.translate(size.width / 2, size.height / 2);
     drawHelp(canvas, size);
-    line.paintLine(canvas);
-    line.paintHelp(canvas);
-    Offset center = (line.start+line.end)/2;
-    Point point = Point(center.dx,center.dy);
-    point.paint(canvas);
+    line.paint(canvas);
 
     // Line l2= Line.fromRad(start: center, rad: 45*math.pi/180, len: 100);
-    Line l2 = line.branch(rad: 45*math.pi/180, percent: 0.5, len: 100);
-    l2.paintLine(canvas);
-    Point point2 = Point(l2.end.dx,l2.end.dy);
-    point2.paint(canvas);
+    Line l2 = line.branch(
+        rad: config.value.angle * math.pi / 180,
+        percent: config.value.percent,
+        len: config.value.len,
+    );
+    l2.paint(
+      canvas,
+      color: Colors.red,
+    );
 
-    Line l3 = line.branch(rad: -45*math.pi/180, percent: 0.8, len: 100);
-    l3.paintLine(canvas);
-    l3.paintHelp(canvas);
+    _muses.markLine(
+      line,
+      start: 'p0',
+      end: 'p1',
+      textColor: Colors.blue,
+    );
+    _muses.markAngle(l2, config.value.angle, text: '${config.value.angle}°');
+    _muses.markLine(
+      l2,
+      start: 'q0',
+      end: 'q1',
+      textColor: Colors.red,
+      color: Colors.red,
+    );
+
+    // Line l3 = line.branch(rad: -45*math.pi/180, percent: 0.8, len: 100);
+    // l3.paint(canvas);
+    // _muses.markLine(
+    //   l3,
+    // );
 
     // Line l4 = line.branch(rad: -25*math.pi/180, percent: 0.2, len: 50);
     // l4.paintLine(canvas);
@@ -64,12 +113,8 @@ class AnglePainter extends CustomPainter {
       ..relativeLineTo(0, size.height);
     dashPainter.paint(canvas, helpPath, helpPaint);
 
-    drawHelpText('0°', canvas, Offset(size.width / 2 - 20, 0));
-    drawHelpText('p0', canvas, line.start.translate(-20, 0));
-    drawHelpText('p1', canvas, line.end.translate(-20, 0));
-
     drawHelpText(
-      '角度: ${(line.positiveRad * 180 / math.pi).toStringAsFixed(2)}°',
+      '角度: ${(config.value.angle).toInt()}°',
       canvas,
       Offset(
         -size.width / 2 + 10,
