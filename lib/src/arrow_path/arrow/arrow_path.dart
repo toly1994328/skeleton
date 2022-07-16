@@ -19,7 +19,7 @@ class ArrowPath extends AbstractPath {
     Offset line = (tail.position - head.position);
     Offset center = head.position + line / 2;
     double length = line.distance - head.size.width / 2 - tail.size.width / 2;
-    Rect lineZone = Rect.fromCenter(center: center, width: length, height: 1);
+    Rect lineZone = Rect.fromCenter(center: center, width: length, height: 6);
     Path linePath = Path()..addRect(lineZone);
 
     // 通过矩阵变换，让 linePath 以 center 为中心旋转 两点间角度
@@ -43,11 +43,13 @@ class ArrowPath extends AbstractPath {
     Matrix4 tailM4 = Matrix4.translationValues(-fixDx, -fixDy, 0);
     center = tail.position;
     tailM4.multiply(Matrix4.translationValues(center.dx, center.dy, 0));
-    tailM4.multiply(Matrix4.rotationZ(line.direction - pi));
+    tailM4.multiply(Matrix4.diagonal3Values(1,-1, 1));
+    tailM4.multiply(Matrix4.rotationZ(line.direction-pi));
     tailM4.multiply(Matrix4.translationValues(-center.dx, -center.dy, 0));
     tailPath = tailPath.transform(tailM4.storage);
 
     Path temp = Path.combine(PathOperation.union, linePath, headPath);
+    // return headPath;
     return Path.combine(PathOperation.union, temp, tailPath);
   }
 }
@@ -60,7 +62,7 @@ class PortPath extends AbstractPath {
   PortPath(
     this.position,
     this.size, {
-    this.portPath = const CustomPortPath(),
+    this.portPath = const TrianglePortPath.custom(),
   });
 
   @override
@@ -70,3 +72,5 @@ class PortPath extends AbstractPath {
     return portPath.fromPathByRect(zone);
   }
 }
+
+
