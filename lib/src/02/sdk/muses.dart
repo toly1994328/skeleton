@@ -1,7 +1,6 @@
 // 缪斯 - 希腊神话中主司艺术与科学的九位古老文艺女神的总称
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'line.dart';

@@ -11,7 +11,7 @@ abstract class PortPathBuilder{
 }
 
 
-class TrianglePortPath extends PortPathBuilder {
+class TrianglePortPath extends PortPathBuilder with StokePathMixin{
   final double rate;
   final double lowRate;
 
@@ -45,6 +45,19 @@ class TrianglePortPath extends PortPathBuilder {
 
   @override
   String get debugLabel => 'TrianglePortPath:lowRate=$lowRate:rate:$rate';
+
+
+  @override
+  StokeConfig calculateConfig(Rect zone, double lineWidth) {
+    Offset p0 = zone.centerLeft;
+    Offset p1 = zone.bottomRight;
+    double rad = (p1-p0).direction;
+    double offsetX = lineWidth/sin(rad);
+    double shapeWidth = zone.width-(1-this.rate) * zone.width;
+    double offsetEnd = lineWidth;
+    double rate = (shapeWidth-offsetX-offsetEnd)/(shapeWidth);
+    return StokeConfig(offsetX: offsetX, rate: rate);
+  }
 }
 
 class HalfTrianglePortPath extends PortPathBuilder {
@@ -102,7 +115,6 @@ class TriangleLinePortPath extends PortPathBuilder {
 class HalfTriangleLinePortPath extends PortPathBuilder {
   final double lineWidth;
 
-
   const HalfTriangleLinePortPath({required this.lineWidth});
 
   @override
@@ -126,55 +138,45 @@ class HalfTriangleLinePortPath extends PortPathBuilder {
   }
 }
 
+mixin StokePathMixin on PortPathBuilder{
+  StokeConfig calculateConfig(Rect zone,double lineWidth);
+}
+
+class StokeConfig{
+  final double offsetX;
+  final double rate;
+
+  StokeConfig({required this.offsetX,required this.rate});
+}
+
 class StokeHandler extends PortPathBuilder {
-  final PortPathBuilder child;
-  final double innerScale;
+  final StokePathMixin child;
+  final double lineWidth;
 
-  StokeHandler({required this.child, this.innerScale = 0.5});
-
-  @override
-  String get debugLabel =>
-      "StokeHandler[innerScale:$innerScale,child:${child.debugLabel}]";
+  StokeHandler({required this.child, required this.lineWidth});
 
   @override
   Path fromPathByRect(Rect zone) {
     Path outPath = child.fromPathByRect(zone);
-    Offset p0 = zone.centerLeft;
-    Offset p1 = zone.bottomRight.translate(0, -zone.height * 0.8);
-    Offset p2 = zone.topRight.translate(0, zone.height * 0.8);
-    // Offset origin =
+    Matrix4 m4 = Matrix4.identity();
+    StokeConfig config = child.calculateConfig(zone, lineWidth);
+    double centerX = -zone.size.width/2+config.offsetX;
+    double rate = config.rate;
+    m4.multiply(Matrix4.translationValues(centerX, 0, 0));
+    m4.multiply(Matrix4.diagonal3Values(rate, rate, 1));
+    m4.multiply(Matrix4.translationValues(-centerX, 0, 0));
+    m4.multiply(Matrix4.translationValues(config.offsetX, 0, 0));
 
-    double x1 = p0.dx;
-    double y1 = p0.dy;
-
-    double x2 = p1.dx;
-    double y2 = p1.dy;
-
-    double x3 = p2.dx;
-    double y3 = p2.dy;
-
-    double a1 = 2 * (x2 - x1);
-    double b1 = 2 * (y2 - y1);
-    double c1 = x2 * x2 + y2 * y2 - x1 * x1 - y1 * y1;
-    double a2 = 2 * (x3 - x2);
-    double b2 = 2 * (y3 - y2);
-    double c2 = x3 * x3 + y3 * y3 - x2 * x2 - y2 * y2;
-    double x = ((c1 * b2) - (c2 * b1)) / ((a1 * b2) - (a2 * b1));
-    double y = ((a1 * c2) - (a2 * c1)) / ((a1 * b2) - (a2 * b1));
-    print("$x,$y");
-    print("${150 * 0.15}");
-
-    double offset = 150 * 0.15;
-    Matrix4 m4 = Matrix4.translationValues(x, y, 0);
-    m4.multiply(Matrix4.diagonal3Values(innerScale, innerScale, 1));
-    m4.multiply(Matrix4.translationValues(-x, y, 0));
     Path innerPath = outPath.transform(m4.storage);
     return Path.combine(PathOperation.difference, outPath, innerPath);
   }
+
+  @override
+  String get debugLabel =>
+      "StokeHandler[lineWidth:$lineWidth,child:${child.debugLabel}]";
 }
 
-
-class CirclePortPath extends PortPathBuilder {
+class CirclePortPath extends PortPathBuilder with StokePathMixin{
   const CirclePortPath();
 
   @override
@@ -186,4 +188,45 @@ class CirclePortPath extends PortPathBuilder {
 
   @override
   String get debugLabel => 'CirclePortPath';
+
+  @override
+  StokeConfig calculateConfig(Rect zone, double lineWidth) {
+    return StokeConfig(offsetX: lineWidth, rate: (zone.width-lineWidth*2)/zone.width);
+  }
+}
+
+class RhombusPortPath extends PortPathBuilder with StokePathMixin{
+  final double lowRate;
+
+  const RhombusPortPath({this.lowRate=0});
+
+  @override
+  Path fromPathByRect(Rect zone) {
+    Path path = Path();
+    Offset p0 = zone.centerLeft;
+    Offset p1 = zone.bottomCenter.translate(0, -zone.height*lowRate);
+    Offset p2 = zone.centerRight;
+    Offset p3 = zone.topCenter.translate(0, zone.height*lowRate);
+    path..moveTo(p0.dx, p0.dy)
+      ..lineTo(p1.dx, p1.dy)
+      ..lineTo(p2.dx, p2.dy)
+      ..lineTo(p3.dx, p3.dy)
+      ..close();
+    return path;
+  }
+
+  @override
+  String get debugLabel => 'RhombusPortPath[lowRate:$lowRate]';
+
+  @override
+  StokeConfig calculateConfig(Rect zone, double lineWidth) {
+    Offset p0 = zone.centerLeft;
+    Offset p1 = zone.bottomCenter;
+    double rad = (p1-p0).direction;
+    double offsetX = lineWidth/sin(rad);
+    double shapeWidth = zone.width;
+    double offsetEnd = offsetX;
+    double rate = (shapeWidth-offsetX-offsetEnd)/(shapeWidth);
+    return StokeConfig(offsetX: offsetX, rate: rate);
+  }
 }

@@ -19,7 +19,7 @@ class ArrowPath extends AbstractPath {
     Offset line = (tail.position - head.position);
     Offset center = head.position + line / 2;
     double length = line.distance - head.size.width / 2 - tail.size.width / 2;
-    Rect lineZone = Rect.fromCenter(center: center, width: length, height: 6);
+    Rect lineZone = Rect.fromCenter(center: center, width: length, height: 2);
     Path linePath = Path()..addRect(lineZone);
 
     // 通过矩阵变换，让 linePath 以 center 为中心旋转 两点间角度
