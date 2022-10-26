@@ -15,7 +15,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,7 +35,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
 
   Offset p = Offset.zero;
 
@@ -63,7 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onTapDown(TapDownDetails details) {
     p = details.localPosition;
-    print('===_onTapDown====${details.localPosition}====');
     setState(() {
 
     });
@@ -107,16 +104,14 @@ class Paper extends CustomPainter {
      Paint paint2 = Paint()..style=PaintingStyle.stroke;
      canvas.drawPath(shape.formPath(), paint2);
     }
-
+    // 绘制辅助线
     canvas.translate(size.width / 2, size.height / 2);
     final double startAngle = shape.startAngle;
     final double sweepAngle = shape.sweepAngle;
-    // muses.markSector(SectorShape(center: Offset(0, 0), innerRadius: 40, outRadius: 80, startAngle: startAngle, sweepAngle: sweepAngle));
-    muses.markCircle(const Offset(0, 0), 80);
-    muses.markCircle(const Offset(0, 0), 40);
-    muses.markLine(Line.fromRad(start: Offset(0, 0), rad: startAngle, len: 80));
-    muses.markLine(Line.fromRad(
-        start: Offset(0, 0), rad: startAngle + sweepAngle, len: 80));
+    muses.markCircle(Offset.zero, 80);
+    muses.markCircle(Offset.zero, 40);
+    muses.markLine(Line.fromRad(start: Offset.zero, rad: startAngle, len: 80));
+    muses.markLine(Line.fromRad(start:  Offset.zero, rad: startAngle + sweepAngle, len: 80));
   }
 
   @override
