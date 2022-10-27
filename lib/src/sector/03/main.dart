@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +6,6 @@ import 'package:skeleton/src/gods/muses.dart';
 import 'package:skeleton/src/gods/world/dash_painter.dart';
 import 'package:skeleton/src/gods/world/line.dart';
 import 'package:skeleton/src/sector/sector.dart';
-import 'dart:ui' as ui;
 void main() {
   runApp(const MyApp());
 }
@@ -74,23 +72,21 @@ class _MyHomePageState extends State<MyHomePage> {
       sweepAngle: 80 * pi / 180,
     );
     // Offset offset = const Offset(12.7, 48.4);
-    // Offset offset = const Offset(0, 0);
-    // Path path = shape.formPath();
-    //  int time = DateTime.now().millisecondsSinceEpoch;
-    //  for(int i = 0;i<1000000;i++){
-    //
-    //     //path.contains(offset); //481ms
-    //     // shape.contains(offset); //107ms
-    //
-    //    // path.contains(offset); // 229ms
-    //    // shape.contains(offset); // 34ms
-    //
-    //     // print("=path.contains===${path.contains(offset)}=======");
-    //     // print("=shape.contains===${shape.contains(offset)}=======");
-    //  }
-    // int endTime = DateTime.now().millisecondsSinceEpoch;
-    //  print('${endTime-time}ms');
+    Offset offset = const Offset(0, 0);
+    Path path = shape.formPath();
+    int time = DateTime.now().millisecondsSinceEpoch;
+    for (int i = 0; i < 1000000; i++) {
+      //path.contains(offset); //481ms
+      // shape.contains(offset); //107ms
 
+      // path.contains(offset); // 229ms
+      shape.contains(offset); // 34ms
+
+      // print("=path.contains===${path.contains(offset)}=======");
+      // print("=shape.contains===${shape.contains(offset)}=======");
+    }
+    int endTime = DateTime.now().millisecondsSinceEpoch;
+    print('${endTime - time}ms');
   }
 
   void _onTapDown(TapDownDetails details) {

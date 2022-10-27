@@ -17,16 +17,23 @@ class SectorShape {
   });
 
   bool contains(Offset p) {
+    Offset position = p - center;
     // 校验环形区域
-    double l = (p - center).distance;
+    double l = position.distance;
     bool inRing = l <= outRadius && l >= innerRadius;
     if (!inRing) return false;
 
     // 校验角度范围
-    double a = (p - center).direction;
+    double a = position.direction;
     double endArg = startAngle + sweepAngle;
     double start = startAngle;
+    print('a:${a*180/pi},start:${start*180/pi},endArg:${endArg*180/pi},');
+
     if(sweepAngle>0){
+      print(position);
+      if(position.dx<0&&position.dy<0){
+        a+=2*pi;
+      }
       return a >= start && a <= endArg;
     }else{
       return a <= start && a >= endArg;
