@@ -48,7 +48,6 @@ class Muses {
     if (attr != null) {
       attr.mergePaint(paint);
     }
-    print(_old.strokeWidth);
     switch (type) {
       case PaintType.fill:
         paint.style = PaintingStyle.fill;

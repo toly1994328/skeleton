@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skeleton/src/chart/pie/model/sale_data.dart';
+import 'package:skeleton/src/chart/pie/01/model/sale_data.dart';
 
 class LegendItem extends StatelessWidget {
   final SaleData data;

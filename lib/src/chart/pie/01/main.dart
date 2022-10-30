@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:skeleton/src/chart/pie/model/sale_data.dart';
-import 'package:skeleton/src/chart/pie/views/legend_item.dart';
+import 'package:skeleton/src/chart/pie/01/model/sale_data.dart';
+import 'package:skeleton/src/chart/pie/01/views/legend_item.dart';
 import 'package:skeleton/src/gods/muses.dart';
 import 'package:skeleton/src/gods/world/dash_painter.dart';
 import 'package:skeleton/src/sector/sector.dart';
