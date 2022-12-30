@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'coordinate.dart';
+import 'point_values.dart';
 
 class PainterBox extends CustomPainter {
 
@@ -14,16 +15,9 @@ class PainterBox extends CustomPainter {
     yScaleCount: 10,
   );
 
-  final List<Offset> points = const [
-    Offset(0.12, 0.13),
-    Offset(0.22, 0.31),
-    Offset(0.24, 0.43),
-    Offset(0.62, 0.53),
-    Offset(0.72, 0.23),
-    Offset(0.82, 0.13),
-    Offset(0.32, 0.63),
-    Offset(0.52, 0.83),
-  ];
+  final PointValues points;
+
+  PainterBox(this.points):super(repaint: points);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -33,10 +27,8 @@ class PainterBox extends CustomPainter {
     canvas.scale(1,-1);
 
     canvas.drawRect(Offset.zero & size, _bgPainter);
-    // canvas.drawCircle(Offset.zero, 5, _mainPainter);
 
-
-    for (Offset point in points) {
+    for (Offset point in points.data) {
       canvas.drawCircle(point.scale(size.width, size.height), 5, _mainPainter);
     }
 
@@ -44,7 +36,7 @@ class PainterBox extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant PainterBox oldDelegate) {
-    return false;
+    return oldDelegate.points!=points;
   }
 
 }
