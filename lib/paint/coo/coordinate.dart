@@ -7,8 +7,6 @@ class Coordinate {
   final Color axisColor;
   final double strokeWidth;
   final int xScaleCount;
-  final double xScale;
-  final double yScale;
   final int yScaleCount;
 
   Coordinate({
@@ -16,8 +14,6 @@ class Coordinate {
     this.strokeWidth = 1,
     this.xScaleCount = 10,
     this.yScaleCount = 10,
-    this.xScale = 1,
-    this.yScale = 1,
   }) {
     axisPaint
       ..color = axisColor
@@ -40,21 +36,19 @@ class Coordinate {
     double step = size.width/xScaleCount;
 
     for(int i=1;i<xScaleCount;i++){
-      String value = ((i/xScaleCount)*xScale).toStringAsFixed(1);
+      String value = (i/xScaleCount).toStringAsFixed(1);
       textPainter.text =  TextSpan(
           text: value, style: const TextStyle(fontSize: 12, color: Colors.black));
       textPainter.layout(); // 进行布局
       textPainter.paint(canvas, Offset(i*step-textPainter.size.width/2,5));
       canvas.drawLine(Offset(i*step, 0), Offset(i*step, 5), axisPaint);
       canvas.drawLine(Offset(i*step, 0), Offset(i*step, -size.height), gridAxisPaint);
-
-
     }
 
     // 绘制 y 轴文字
     double stepY = size.height/yScaleCount;
     for(int i=1;i<yScaleCount;i++){
-      String value = ((i/yScaleCount)*yScale).toStringAsFixed(1);
+      String value = (i/yScaleCount).toStringAsFixed(1);
       textPainter.text =  TextSpan(
           text: value, style: const TextStyle(fontSize: 12, color: Colors.black));
       textPainter.layout(); // 进行布局

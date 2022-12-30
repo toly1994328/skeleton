@@ -12,8 +12,6 @@ class PainterBox extends CustomPainter {
   final Coordinate coordinate = Coordinate(
     xScaleCount: 10,
     yScaleCount: 10,
-    yScale: 1,
-    xScale: 1
   );
 
   final List<Offset> points = const [
