@@ -30,7 +30,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: CustomPaint(
-          size: const Size(300, 300),
+          size: const Size(300,300),
           painter: PainterBox(),
         ),
       ),
