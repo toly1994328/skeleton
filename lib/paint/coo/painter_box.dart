@@ -29,7 +29,11 @@ class PainterBox extends CustomPainter {
     canvas.drawRect(Offset.zero & size, _bgPainter);
 
     for (Offset point in points.data) {
-      canvas.drawCircle(point.scale(size.width, size.height), 5, _mainPainter);
+      canvas.drawCircle(point.scale(size.width, size.height), 2, _mainPainter);
+    }
+    if(points.data.isNotEmpty){
+      double y = points.data.last.dy*size.height;
+      canvas.drawCircle(Offset(size.width+40, y), 10, _mainPainter);
     }
 
   }
