@@ -12,4 +12,8 @@ class PointValues extends ChangeNotifier{
     data.clear();
     notifyListeners();
   }
+
+  void repaint(){
+    notifyListeners();
+  }
 }
