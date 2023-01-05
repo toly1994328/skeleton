@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeleton/app/global/toly_icon.dart';
 
-import '../models/coo_config.dart';
+import '../models/axis_range.dart';
 import '../models/point_values.dart';
 import '../painter/coordinate.dart';
 import '../painter/painter_box.dart';
@@ -22,29 +22,16 @@ class _MyHomePageState extends State<MyHomePage> {
       xScaleCount: 10,
       yScaleCount: 10,
       range: const AxisRange(
-          minX: -1,
-          maxX: 1,
-          maxY: 1,
-          minY: -1
-      )
-  );
+        minX: -1,
+        maxX: 1,
+        minY: -1,
+        maxY: 1,
+      ));
 
   @override
   void initState() {
     super.initState();
   }
-
-  // @override
-  // void reassemble() {
-  //   super.reassemble();
-  //   coordinate.range = const AxisRange(
-  //     minX: 32.5,
-  //     maxX: 64.8,
-  //     minY: 0.5,
-  //     maxY: 10.5
-  //   );
-  //   pointValues.repaint();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: RepaintBoundary(
                 child: CustomPaint(
                   size: const Size(400, 400),
-                  painter: PainterBox(pointValues,coordinate: coordinate),
+                  painter: PainterBox(pointValues, coordinate: coordinate),
                 ),
               ),
             ),
@@ -66,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 80,
               margin: const EdgeInsets.only(top: 30),
               // color: Colors.red,
-              child:Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   MoveCtrlButton(onTapCtrl: _onTapCtrl),
@@ -80,36 +67,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   void _clear() {
     pointValues.clear();
   }
 
-
   void _onTapCtrl(CtrlType type) {
-    if(type == CtrlType.right){
+    if (type == CtrlType.right) {
       coordinate.move(const Offset(0.1, 0));
     }
-    if(type == CtrlType.left){
+    if (type == CtrlType.left) {
       coordinate.move(const Offset(-0.1, 0));
     }
-    if(type == CtrlType.up){
+    if (type == CtrlType.up) {
       coordinate.move(const Offset(0, 0.1));
     }
-    if(type == CtrlType.down){
+    if (type == CtrlType.down) {
       coordinate.move(const Offset(0, -0.1));
     }
-    if(type == CtrlType.center){
+    if (type == CtrlType.center) {
       coordinate.range = const AxisRange();
     }
-    if(type == CtrlType.bigger){
+    if (type == CtrlType.bigger) {
       coordinate.scale(2);
     }
-    if(type == CtrlType.smaller){
+    if (type == CtrlType.smaller) {
       coordinate.scale(0.5);
     }
     print(type);
     pointValues.repaint();
-
   }
 }

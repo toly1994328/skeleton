@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../models/coo_config.dart';
+import '../models/axis_range.dart';
 
 /// [rate]: 0~1
 typedef ScaleFormat = String Function(double rate);
@@ -60,10 +60,7 @@ class Coordinate {
 
   void paint(Canvas canvas, Size size) {
     _drawAxis(canvas, size);
-    _drawScale(
-      canvas,
-      size,
-    );
+    _drawScale(canvas, size);
   }
 
   void _drawScale(Canvas canvas, Size size) {

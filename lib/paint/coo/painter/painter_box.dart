@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:skeleton/paint/coo/models/coo_config.dart';
+import 'package:skeleton/paint/coo/models/axis_range.dart';
 
 import 'coordinate.dart';
 import '../models/point_values.dart';
@@ -49,9 +49,9 @@ class PainterBox extends CustomPainter {
       points.add(Offset(x, y));
     }
 
-
     List<Offset> points2 = [];
-    for(double dx = coordinate.range.minX;dx<coordinate.range.maxX; dx+=step){
+    for(int i =0;i<pointCount;i++){
+      double dx = coordinate.range.minX+step*i;
       double dy = dx;
       double x = (dx - coordinate.range.minX)/coordinate.range.xSpan*size.width;
       double y = (dy - coordinate.range.minY)/coordinate.range.ySpan*size.height;
@@ -59,7 +59,8 @@ class PainterBox extends CustomPainter {
     }
 
     List<Offset> points3 = [];
-    for(double dx = coordinate.range.minX;dx<coordinate.range.maxX; dx+=step){
+    for(int i =0;i<pointCount;i++){
+      double dx = coordinate.range.minX+step*i;
       double dy = dx*dx*dx/20;
       double x = (dx - coordinate.range.minX)/coordinate.range.xSpan*size.width;
       double y = (dy - coordinate.range.minY)/coordinate.range.ySpan*size.height;
