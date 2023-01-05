@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:skeleton/app/global/toly_icon.dart';
 
 import '../models/axis_range.dart';
+import '../models/fun.dart';
 import '../models/point_values.dart';
 import '../painter/coordinate.dart';
+import '../painter/function_manager.dart';
 import '../painter/painter_box.dart';
 import 'move_ctrl_button.dart';
 import 'scale_ctrl_button.dart';
@@ -17,6 +21,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final PointValues pointValues = PointValues();
+  final FunctionManager fm = FunctionManager();
 
   final Coordinate coordinate = Coordinate(
       xScaleCount: 10,
@@ -31,6 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    fm.add(Fun(fx: (x) => 0.6 * sin(x * 5), color: Colors.blue, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => x, color: Colors.red, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => x * x * x / 20, color: Colors.purple, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => x * x, color: Colors.yellow, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => 0.33, color: Colors.green, strokeWidth: 1));
   }
 
   @override
@@ -41,11 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
+              onPanUpdate: _onPanUpdate,
               onDoubleTap: _clear,
               child: RepaintBoundary(
                 child: CustomPaint(
                   size: const Size(400, 400),
-                  painter: PainterBox(pointValues, coordinate: coordinate),
+                  painter: PainterBox(
+                    pointValues,
+                    coordinate: coordinate,
+                    fm: fm
+                  ),
                 ),
               ),
             ),
@@ -94,6 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
       coordinate.scale(0.5);
     }
     print(type);
+    pointValues.repaint();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    double rate = coordinate.range.xSpan / 2 * 0.01;
+    coordinate.move(details.delta.scale(-rate, rate));
     pointValues.repaint();
   }
 }
