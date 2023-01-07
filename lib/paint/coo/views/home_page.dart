@@ -24,23 +24,23 @@ class _MyHomePageState extends State<MyHomePage> {
   final FunctionManager fm = FunctionManager();
 
   final Coordinate coordinate = Coordinate(
-      xScaleCount: 10,
-      yScaleCount: 10,
+      xStep: 1,
+      yStep: 1,
       range: const AxisRange(
-        minX: -1,
-        maxX: 1,
-        minY: -1,
-        maxY: 1,
+        minX: -7.8,
+        maxX: 7.8,
+        minY: -7.8,
+        maxY: 7.8,
       ));
 
   @override
   void initState() {
     super.initState();
-    fm.add(Fun(fx: (x) => 0.6 * sin(x * 5), color: Colors.blue, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => 5 * sin(x), color: Colors.blue, strokeWidth: 2));
     fm.add(Fun(fx: (x) => x, color: Colors.red, strokeWidth: 2));
     fm.add(Fun(fx: (x) => x * x * x / 20, color: Colors.purple, strokeWidth: 2));
     fm.add(Fun(fx: (x) => x * x, color: Colors.yellow, strokeWidth: 2));
-    fm.add(Fun(fx: (x) => 0.33, color: Colors.green, strokeWidth: 1));
+    fm.add(Fun(fx: (x) => 4.5, color: Colors.green, strokeWidth: 1));
   }
 
   @override
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onDoubleTap: _clear,
               child: RepaintBoundary(
                 child: CustomPaint(
-                  size: const Size(400, 400),
+                  size: MediaQuery.of(context).size,
                   painter: PainterBox(
                     pointValues,
                     coordinate: coordinate,
@@ -64,18 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            Container(
-              height: 80,
-              margin: const EdgeInsets.only(top: 30),
-              // color: Colors.red,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  MoveCtrlButton(onTapCtrl: _onTapCtrl),
-                  ScaleCtrlButton(onTapCtrl: _onTapCtrl),
-                ],
-              ),
-            )
+            // Container(
+            //   height: 80,
+            //   margin: const EdgeInsets.only(top: 30),
+            //   // color: Colors.red,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //     children: [
+            //       MoveCtrlButton(onTapCtrl: _onTapCtrl),
+            //       ScaleCtrlButton(onTapCtrl: _onTapCtrl),
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
@@ -100,7 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
       coordinate.move(const Offset(0, -0.1));
     }
     if (type == CtrlType.center) {
-      coordinate.range = const AxisRange();
+      coordinate.range = const AxisRange(
+        minX: -10,
+        maxX: 10,
+        minY: -10,
+        maxY: 10,
+      );
     }
     if (type == CtrlType.bigger) {
       coordinate.scale(2);
@@ -113,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
-    double rate = coordinate.range.xSpan / 2 * 0.01;
+    double rate = coordinate.range.xSpan / 2 * 0.002;
     coordinate.move(details.delta.scale(-rate, rate));
     pointValues.repaint();
   }

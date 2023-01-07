@@ -1,23 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'views/home_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+  if(Platform.isWindows||Platform.isMacOS){
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
 
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(600, 650),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.normal,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(800, 650),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
+
 
   runApp(const MyApp());
 }

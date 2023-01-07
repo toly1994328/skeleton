@@ -13,8 +13,8 @@ class Coordinate {
 
   final Color axisColor;
   final double strokeWidth;
-  final int xScaleCount;
-  final int yScaleCount;
+  final double xStep;
+  final double yStep;
 
   void move(Offset offset) {
     range = AxisRange(
@@ -38,8 +38,8 @@ class Coordinate {
     this.axisColor = Colors.black,
     this.strokeWidth = 1,
     this.range = const AxisRange(),
-    this.xScaleCount = 10,
-    this.yScaleCount = 10,
+    this.xStep = 1,
+    this.yStep = 1,
   }) {
     axisPaint
       ..color = axisColor
@@ -56,20 +56,20 @@ class Coordinate {
   final Paint gridAxisPaint = Paint()
     ..style = PaintingStyle.stroke
     ..color = Colors.grey
-    ..strokeWidth = 0.5;
+    ..strokeWidth = 0.2;
 
-  Offset real(Offset p,Size size){
+  Offset real(Offset p, Size size) {
     double x = (p.dx - range.minX) / range.xSpan * size.width;
     double y = (p.dy - range.minY) / range.ySpan * size.height;
     return Offset(x, y);
   }
 
   void paint(Canvas canvas, Size size) {
-    _drawAxis(canvas, size);
+    // _drawAxis(canvas, size);
     _drawScale(canvas, size);
   }
 
-  void drawAxisLine(Canvas canvas, Size size){
+  void drawAxisLine(Canvas canvas, Size size) {
     canvas.drawLine(
       real(Offset(0, range.minY), size),
       real(Offset(0, range.maxY), size),
@@ -77,26 +77,43 @@ class Coordinate {
     );
 
     canvas.drawLine(
-     real(Offset(range.minX,0 ), size),
-     real(Offset(range.maxX,0), size),
-     axisPaint,
+      real(Offset(range.minX, 0), size),
+      real(Offset(range.maxX, 0), size),
+      axisPaint,
     );
   }
 
   void _drawScale(Canvas canvas, Size size) {
-    double stepX = (range.xSpan / xScaleCount);
-    for(int i =0;i<=xScaleCount;i++){
-      double value = range.minX+stepX*i;
+    List<double> xScales = range.xScales(xStep);
+    double zeroY = (0 - range.minY) / range.ySpan * size.height;
+    double zeroX = (0 - range.minX) / range.xSpan * size.width;
+    for (int i = 0; i < xScales.length; i++) {
+      double value = xScales[i];
       double offsetX = (value - range.minX) / range.xSpan * size.width;
+
+      // 绘制文字
+      Color textColor = Colors.black;
+      if(zeroY<=25){
+        zeroY = 25;
+        textColor = Colors.grey;
+      }
+
+      if(zeroY>=size.height){
+        zeroY = size.height;
+        textColor = Colors.grey;
+      }
+
       textPainter.text = TextSpan(
         text: value.toStringAsFixed(2),
-        style: const TextStyle(fontSize: 12, color: Colors.black),
+        style: TextStyle(fontSize: 12, color: textColor),
       );
       textPainter.layout();
-      // 绘制文字
       textPainter.paint(
         canvas,
-        Offset(offsetX - textPainter.size.width / 2, 5),
+        Offset(
+            offsetX - textPainter.size.width / 2,
+            5 - zeroY
+        ),
       );
       // 绘制网格
       canvas.drawLine(
@@ -106,58 +123,38 @@ class Coordinate {
       );
     }
 
-    double stepY = (range.ySpan / xScaleCount);
-    for(int i =0;i<=yScaleCount;i++){
-      double value = range.minY+stepY*i;
+    List<double> yScales = range.yScales(xStep);
+
+    for (int i = 0; i < yScales.length; i++) {
+      double value = yScales[i];
       double offsetY = (value - range.minY) / range.ySpan * size.height;
+
+      Color textColor = Colors.black;
+      if(zeroX<=40){
+        zeroX = 40;
+        textColor = Colors.grey;
+      }
+
+      if(zeroX>=size.width){
+        zeroX = size.width;
+        textColor = Colors.grey;
+      }
+
       textPainter.text = TextSpan(
           text: value.toStringAsFixed(2),
-          style: const TextStyle(fontSize: 12, color: Colors.black));
+          style:  TextStyle(fontSize: 12, color: textColor));
       textPainter.layout(); // 进行布局
       textPainter.paint(
           canvas,
-          Offset(-6 - textPainter.size.width,
+          Offset(-6 - textPainter.size.width  + zeroX,
               -offsetY - textPainter.size.height / 2));
 
       canvas.drawLine(
         Offset(0, -offsetY),
-        Offset(size.height, -offsetY),
+        Offset(size.width, -offsetY),
         gridAxisPaint,
       );
     }
   }
 
-  void _drawAxis(Canvas canvas, Size size) {
-    Path axisPath = Path();
-    axisPath.addRect(Rect.fromPoints(Offset.zero, Offset(size.width,-size.height)));
-
-    // // x 轴
-    // Path axisPath = Path();
-    // axisPath.relativeLineTo(size.width + 15, 0);
-    // axisPath.relativeLineTo(-10, -4);
-    // axisPath.moveTo(size.width + 15, 0);
-    // axisPath.relativeLineTo(-10, 4);
-    //
-    // // y 轴
-    // axisPath.moveTo(0, 0);
-    // axisPath.relativeLineTo(0, -size.height - 15);
-    // axisPath.relativeLineTo(-4, 10);
-    // axisPath.moveTo(-0, -size.height - 15);
-    // axisPath.relativeLineTo(4, 10);
-    canvas.drawPath(axisPath, axisPaint);
-
-    // textPainter.text = const TextSpan(
-    //     text: 'x 轴', style: TextStyle(fontSize: 12, color: Colors.black));
-    // textPainter.layout(); // 进行布局
-    // Size textSize = textPainter.size; // 尺寸必须在布局后获取
-    // textPainter.paint(canvas, Offset(size.width + 5, -textSize.height - 5));
-    // textPainter.text = const TextSpan(
-    //     text: 'y 轴', style: TextStyle(fontSize: 12, color: Colors.black));
-    // textPainter.layout(); // 进行布局
-    // Size textSize2 = textPainter.size; // 尺寸必须在布局后获取
-    // textPainter.paint(
-    //   canvas,
-    //   Offset(textSize2.width / 2, -size.height - (textSize2.height + 5)),
-    // );
-  }
 }
