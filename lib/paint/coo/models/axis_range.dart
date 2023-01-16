@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 class AxisRange {
   final double maxX;
   final double minX;
@@ -11,7 +14,28 @@ class AxisRange {
     this.minY = -1.0,
   });
 
-  List<double> xScales(double step){
+  List<double> xScales(double step,Size size){
+    double tryStep(){
+      double rate1 = xSpan/step;
+      double aSpan = size.width/rate1;
+      if(aSpan>60&&aSpan<120){
+        return step;
+      }
+      if(aSpan<=60){
+        step = step *2;
+        return tryStep();
+      }
+      if(aSpan>=120){
+        step = step /2;
+        return tryStep();
+      }
+      return step;
+
+    }
+    step = tryStep();
+
+
+
     // 根据坐标轴范围，计算出需要出现的刻度
     // 比如坐标轴范围 x: (-7.8，7.8) 步长 2.5
     //
@@ -19,28 +43,55 @@ class AxisRange {
     // double count = span/step;
     // if(count)
     // step = step*5;
-    double minScale = (minX~/step)*step;
-    if(minScale<minX){
-      minScale+=step;
-    }
+
     List<double> result = [];
-    for(double scale = minScale ;scale<=maxX;scale+=step){
+    for(double scale = 0 ;scale>=minX;scale-=step){
+      result.add(scale);
+    }
+
+    for(double scale = 0 ;scale<=maxX;scale+=step){
       result.add(scale);
     }
     return result;
   }
 
-  List<double> yScales(double step){
+  List<double> yScales(double step,Size size){
     // 根据坐标轴范围，计算出需要出现的刻度
     // 比如坐标轴范围 x: (-7.8，7.8) 步长 2.5
     //
     // step = step*5;
-    double minScale = (minY~/step)*step;
-    if(minScale<minY){
-      minScale+=step;
+    // int count = ySpan~/step;
+    // if(count!=0){
+    //   double len = size.height/count;
+    //   int scale = 100~/len;
+    //   step = step*scale;
+    // }
+    double tryStep(){
+      double rate1 = ySpan/step;
+      double aSpan = size.height/rate1;
+      if(aSpan>60&&aSpan<120){
+        return step;
+      }
+      if(aSpan<=60){
+        step = step *2;
+        return tryStep();
+      }
+      if(aSpan>=120){
+        step = step /2;
+        return tryStep();
+      }
+      return step;
     }
+
+
+    step = tryStep();
+
     List<double> result = [];
-    for(double scale = minScale ;scale<=maxY;scale+=step){
+    for(double scale = 0 ;scale>=minY;scale-=step){
+      result.add(scale);
+    }
+
+    for(double scale = 0 ;scale<=maxY;scale+=step){
       result.add(scale);
     }
     return result;

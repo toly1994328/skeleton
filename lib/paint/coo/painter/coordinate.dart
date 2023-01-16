@@ -84,13 +84,21 @@ class Coordinate {
   }
 
   void _drawScale(Canvas canvas, Size size) {
-    List<double> xScales = range.xScales(xStep);
+    List<double> xScales = range.xScales(xStep,size);
     double zeroY = (0 - range.minY) / range.ySpan * size.height;
     double zeroX = (0 - range.minX) / range.xSpan * size.width;
+    textPainter.text = TextSpan(
+        text: '0',
+        style:  TextStyle(fontSize: 12, color: Colors.black));
+    textPainter.layout(); // 进行布局
+    textPainter.paint(canvas, Offset(zeroX-textPainter.width/2-6, -zeroY+6));
+
     for (int i = 0; i < xScales.length; i++) {
       double value = xScales[i];
       double offsetX = (value - range.minX) / range.xSpan * size.width;
-
+      if(value == 0){
+        continue;
+      }
       // 绘制文字
       Color textColor = Colors.black;
       if(zeroY<=25){
@@ -123,10 +131,13 @@ class Coordinate {
       );
     }
 
-    List<double> yScales = range.yScales(xStep);
+    List<double> yScales = range.yScales(xStep,size);
 
     for (int i = 0; i < yScales.length; i++) {
       double value = yScales[i];
+      if(value == 0){
+        continue;
+      }
       double offsetY = (value - range.minY) / range.ySpan * size.height;
 
       Color textColor = Colors.black;
@@ -155,6 +166,8 @@ class Coordinate {
         gridAxisPaint,
       );
     }
+
+
   }
 
 }

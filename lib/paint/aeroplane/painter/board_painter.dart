@@ -8,7 +8,7 @@ class BoardPainter extends CustomPainter {
   final Paint _holePaint = Paint()..color = Colors.white;
   final Paint _blockPaint = Paint();
 
-  final List<Color> blockColors = const [
+  static List<Color> blockColors = const [
     Color(0xff00bdfc), Color(0xffFFCC1C),
     Color(0xff4faa29), Color(0xfffe1a10),
   ];
@@ -22,7 +22,6 @@ class BoardPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
 
     Rect zone = Offset.zero & size;
-
     Rect painterZone = zone.deflate(size.width * 0.04);
     canvas.drawColor(backgroundColor, BlendMode.src);
     canvas.drawRRect(
@@ -33,14 +32,16 @@ class BoardPainter extends CustomPainter {
       _bgPaint..color = Colors.white,
     );
 
-    // _drawHelper(canvas,size,painterZone);
+    _drawHelper(canvas,size,painterZone);
+    //
+    // canvas.drawCircle(Offset.zero, 5, _bgPaint..color = Colors.blue);
+
 
 
     canvas.translate(
       size.width / 2,
       size.height / 2,
     );
-    // canvas.drawCircle(Offset.zero, 5, _bgPaint..color = Colors.blue);
 
     double boxHeight = painterZone.width / 17;
     double boxWidth = boxHeight * 2;

@@ -24,21 +24,22 @@ class _MyHomePageState extends State<MyHomePage> {
   final FunctionManager fm = FunctionManager();
 
   final Coordinate coordinate = Coordinate(
-      xStep: 1,
-      yStep: 1,
+      xStep: 5,
+      yStep: 5,
       range: const AxisRange(
-        minX: -7.8,
+        minX: 0,
         maxX: 7.8,
-        minY: -7.8,
+        minY: 0,
         maxY: 7.8,
       ));
 
   @override
   void initState() {
     super.initState();
-    fm.add(Fun(fx: (x) => 5 * sin(x), color: Colors.blue, strokeWidth: 2));
+    fm.add(Fun(fx: (x) => 6 * sin(0.5*x), color: Colors.blue, strokeWidth: 2));
     fm.add(Fun(fx: (x) => x, color: Colors.red, strokeWidth: 2));
-    fm.add(Fun(fx: (x) => x * x * x / 20, color: Colors.purple, strokeWidth: 2));
+    fm.add(
+        Fun(fx: (x) => x * x * x / 20, color: Colors.purple, strokeWidth: 2));
     fm.add(Fun(fx: (x) => x * x, color: Colors.yellow, strokeWidth: 2));
     fm.add(Fun(fx: (x) => 4.5, color: Colors.green, strokeWidth: 1));
   }
@@ -46,38 +47,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onPanUpdate: _onPanUpdate,
-              onDoubleTap: _clear,
-              child: RepaintBoundary(
-                child: CustomPaint(
-                  size: MediaQuery.of(context).size,
-                  painter: PainterBox(
-                    pointValues,
-                    coordinate: coordinate,
-                    fm: fm
-                  ),
-                ),
+      body: Stack(
+        children: [
+          GestureDetector(
+            onPanUpdate: _onPanUpdate,
+            onDoubleTap: _clear,
+            child: RepaintBoundary(
+              child: CustomPaint(
+                size: MediaQuery.of(context).size,
+                painter:
+                    PainterBox(pointValues, coordinate: coordinate, fm: fm),
               ),
             ),
-            // Container(
-            //   height: 80,
-            //   margin: const EdgeInsets.only(top: 30),
-            //   // color: Colors.red,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //     children: [
-            //       MoveCtrlButton(onTapCtrl: _onTapCtrl),
-            //       ScaleCtrlButton(onTapCtrl: _onTapCtrl),
-            //     ],
-            //   ),
-            // )
-          ],
-        ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 20,
+            child: ScaleCtrlButton(onTapCtrl: _onTapCtrl),
+          ),
+        ],
       ),
     );
   }
@@ -108,10 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
     if (type == CtrlType.bigger) {
-      coordinate.scale(2);
+      coordinate.scale(1.1);
     }
     if (type == CtrlType.smaller) {
-      coordinate.scale(0.5);
+      coordinate.scale(0.9);
     }
     print(type);
     pointValues.repaint();
