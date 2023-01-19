@@ -58,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage>  with SingleTickerProviderState
   void initState() {
     super.initState();
     _ctrl = AnimationController(vsync: this,duration: const Duration(milliseconds: 1000));
+    resetBody();
+    _ctrl.forward();
   }
 
   //52 196
