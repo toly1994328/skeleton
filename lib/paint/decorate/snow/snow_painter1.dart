@@ -11,7 +11,7 @@ class SnowPainter1 extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // canvas.drawRect(Offset.zero & size, _bgPainter);
+    canvas.drawRect(Offset.zero & size, _bgPainter);
     canvas.translate(size.width / 2, size.height / 2);
     // canvas.drawCircle(Offset.zero, 4, _mainPainter);
     //158 - 120
@@ -33,20 +33,22 @@ class SnowPainter1 extends CustomPainter {
       ..relativeLineTo(-storkWidth / sqrt(2), storkWidth / sqrt(2))
       ..lineTo(0, 0);
 
-   Path result = combineAll([
-      p1,p2,
+    Path result = combineAll([
+      p1,
+      p2,
       p2.shift(Offset(37 * rate, 0)),
       p2.shift(Offset(76 * rate, 0))
     ]);
 
-    for(int i=0;i<8;i++){
-      canvas.rotate(2*pi/8*i);
-      canvas.save();
-      canvas.rotate(23/180*pi);
-      canvas.translate(18*rate, 0);
-      canvas.drawPath(result, _mainPainter);
-      canvas.restore();
+
+    List<Path> paths = [];
+    Matrix4 tranM4 = Matrix4.translationValues(18 * rate, 0, 0);
+    for (int i = 0; i < 8; i++) {
+      double rotate = 2 * pi / 8 * i + 23 / 180 * pi;
+      Matrix4 matrix4 = Matrix4.rotationZ(rotate)..multiply(tranM4);
+      paths.add(result.transform(matrix4.storage));
     }
+    canvas.drawPath(combineAll(paths), _mainPainter);
   }
 
   @override
@@ -54,14 +56,14 @@ class SnowPainter1 extends CustomPainter {
     return true;
   }
 
-  Path combineAll(List<Path> paths,{PathOperation operation=PathOperation.union}){
-    if(paths.isEmpty) return Path();
-    if(paths.length<=1) return paths.first;
+  Path combineAll(List<Path> paths,
+      {PathOperation operation = PathOperation.union}) {
+    if (paths.isEmpty) return Path();
+    if (paths.length <= 1) return paths.first;
     Path result = paths.first;
-    for(int i = 1;i<paths.length;i++){
+    for (int i = 1; i < paths.length; i++) {
       result = Path.combine(operation, paths[i], result);
     }
     return result;
   }
-
 }

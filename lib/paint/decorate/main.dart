@@ -51,18 +51,35 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Wrap(
-          children: List.generate(1, (index) => RepaintBoundary(
-            child: CustomPaint(
-              size: Size(400,400),
-              // painter: SnowPainter(),
-              painter: SnowPainter1(),
-            ),
-          ),
-          )),
+        child: CustomPaint(
+          size: const Size(500,500),
+          painter: SnowPainter(),
+          // painter: SnowPainter1(),
+        ),
       ),
     );
   }
 }
+
+// class MyHomePage extends StatelessWidget {
+//   const MyHomePage({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: Wrap(
+//           children: List.generate(45, (index) => RepaintBoundary(
+//             child: CustomPaint(
+//               size: Size(100,100),
+//               painter: SnowPainter(),
+//               // painter: SnowPainter1(),
+//             ),
+//           ),
+//           )),
+//       ),
+//     );
+//   }
+// }
 
 
