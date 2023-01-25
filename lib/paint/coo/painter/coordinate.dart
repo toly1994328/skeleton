@@ -32,6 +32,20 @@ class Coordinate {
       minX: range.minX * rate,
       maxX: range.maxX * rate,
     );
+    scaleHeight*=rate;
+    scaleWidth*=rate;
+    if(scaleHeight>200){
+      scaleHeight = scaleHeight/2;
+    }
+    if(scaleWidth>200){
+      scaleWidth = scaleWidth/2;
+    }
+    if(scaleWidth<80){
+      scaleWidth = scaleWidth*2;
+    }
+    if(scaleHeight<80){
+      scaleHeight = scaleHeight*2;
+    }
   }
 
   Coordinate({
@@ -55,8 +69,10 @@ class Coordinate {
   final Paint axisPaint = Paint();
   final Paint gridAxisPaint = Paint()
     ..style = PaintingStyle.stroke
-    ..color = Colors.grey
-    ..strokeWidth = 0.2;
+    ..color = Colors.grey;
+
+  double scaleHeight = 100;
+  double scaleWidth = 100;
 
   Offset real(Offset p, Size size) {
     double x = (p.dx - range.minX) / range.xSpan * size.width;
@@ -67,6 +83,52 @@ class Coordinate {
   void paint(Canvas canvas, Size size) {
     // _drawAxis(canvas, size);
     _drawScale(canvas, size);
+    drawGrid(canvas,size);
+  }
+
+  // 绘制网格
+  void drawGrid(Canvas canvas,Size size){
+    List<double> xScales = range.xScales(xStep,size,scaleWidth);
+    for (int i = 0; i < xScales.length; i++) {
+      double value = xScales[i];
+      double offsetX = (value - range.minX) / range.xSpan * size.width;
+      // 绘制网格
+      int scaleCount = 5;
+      double splitStep = scaleWidth/scaleCount;
+      for(int i = 0; i<scaleCount;i++){
+        if(i==0){
+          gridAxisPaint.strokeWidth=0.5;
+        }else{
+          gridAxisPaint.strokeWidth=0.2;
+        }
+        canvas.drawLine(
+          Offset(offsetX+i*splitStep, 0),
+          Offset(offsetX+i*splitStep, -size.height),
+          gridAxisPaint,
+        );
+      }
+    }
+
+    List<double> yScales = range.yScales(yStep,size,scaleHeight);
+    for (int i = 0; i < yScales.length; i++) {
+      double value = yScales[i];
+      double offsetY = (value - range.minY) / range.ySpan * size.height;
+      // 绘制网格
+      int scaleCount = 5;
+      double splitStep = scaleHeight/scaleCount;
+      for(int i = 0; i<scaleCount;i++){
+        if(i==0){
+          gridAxisPaint.strokeWidth=0.5;
+        }else{
+          gridAxisPaint.strokeWidth=0.2;
+        }
+        canvas.drawLine(
+          Offset(0, -offsetY-i*splitStep),
+          Offset(size.width, -offsetY-i*splitStep),
+          gridAxisPaint,
+        );
+      }
+    }
   }
 
   void drawAxisLine(Canvas canvas, Size size) {
@@ -84,7 +146,7 @@ class Coordinate {
   }
 
   void _drawScale(Canvas canvas, Size size) {
-    List<double> xScales = range.xScales(xStep,size);
+    List<double> xScales = range.xScales(xStep,size,scaleWidth);
     double zeroY = (0 - range.minY) / range.ySpan * size.height;
     double zeroX = (0 - range.minX) / range.xSpan * size.width;
     textPainter.text = TextSpan(
@@ -123,15 +185,11 @@ class Coordinate {
             5 - zeroY
         ),
       );
-      // 绘制网格
-      canvas.drawLine(
-        Offset(offsetX, 0),
-        Offset(offsetX, -size.height),
-        gridAxisPaint,
-      );
     }
 
-    List<double> yScales = range.yScales(xStep,size);
+
+
+    List<double> yScales = range.yScales(xStep,size,scaleHeight);
 
     for (int i = 0; i < yScales.length; i++) {
       double value = yScales[i];
@@ -160,11 +218,11 @@ class Coordinate {
           Offset(-6 - textPainter.size.width  + zeroX,
               -offsetY - textPainter.size.height / 2));
 
-      canvas.drawLine(
-        Offset(0, -offsetY),
-        Offset(size.width, -offsetY),
-        gridAxisPaint,
-      );
+      // canvas.drawLine(
+      //   Offset(0, -offsetY),
+      //   Offset(size.width, -offsetY),
+      //   gridAxisPaint,
+      // );
     }
 
 

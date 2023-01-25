@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'snow/snow_painter.dart';
-import 'snow/snow_painter1.dart';
+import 'path/path_test.dart';
 
 void main() async {
   if(Platform.isWindows||Platform.isMacOS){
@@ -23,8 +22,6 @@ void main() async {
       await windowManager.focus();
     });
   }
-
-
   runApp(const MyApp());
 }
 
@@ -44,42 +41,42 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl ;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this,duration: const Duration(milliseconds: 2000));
+    // _ctrl.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CustomPaint(
-          size: const Size(400,400),
-          painter: SnowPainter(),
-          // painter: SnowPainter1(),
+        child:  GestureDetector(
+          onTap: _startAnimation,
+          child: CustomPaint(
+            size: const Size(400,400),
+            painter: PathPainter(
+              animation: _ctrl
+            ),
+          ),
         ),
       ),
     );
   }
+
+  void _startAnimation() {
+    _ctrl.forward(from: 0);
+  }
 }
-
-// class MyHomePage extends StatelessWidget {
-//   const MyHomePage({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Wrap(
-//           children: List.generate(45, (index) => RepaintBoundary(
-//             child: CustomPaint(
-//               size: Size(100,100),
-//               painter: SnowPainter(),
-//               // painter: SnowPainter1(),
-//             ),
-//           ),
-//           )),
-//       ),
-//     );
-//   }
-// }
-
 

@@ -12,7 +12,7 @@ class SnowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.translate(size.width / 2, size.height / 2);
     // 153
-    double rate = 1 / 130 * size.width / 2;
+    double rate = 1 / 153 * size.width / 2;
     drawInner(canvas, rate);
     Path p1 = Path()
       ..relativeLineTo(35 * rate, -8 * rate)
@@ -35,12 +35,16 @@ class SnowPainter extends CustomPainter {
       ..moveTo(44 * rate, 0);
 
     Matrix4 matrix4 = Matrix4.identity();
-    matrix4.multiply(Matrix4.translationValues(21 * rate, 0, 0));
-    matrix4.multiply(Matrix4.rotationZ(pi));
-    matrix4.multiply(Matrix4.translationValues(-21 * rate, 0, 0));
-    Matrix4 m2 = Matrix4.rotationZ(-45 * pi / 180).multiplied(matrix4);
-    m2 = Matrix4.diagonal3Values(0.6, 0.6, 1).multiplied(m2);
-    p2 = p2.transform(m2.storage).shift(Offset(42 * rate, -8 * rate));
+
+    matrix4.scale(0.6);
+    matrix4.translate(21 * rate, 0);
+    matrix4.rotateZ(pi);
+    matrix4.translate(-21 * rate, 0);
+
+    matrix4 = Matrix4.rotationZ(-45 * pi / 180).multiplied(matrix4);
+    matrix4 = Matrix4.translationValues(42 * rate, -8 * rate, 0).multiplied(matrix4);
+    p2 = p2.transform(matrix4.storage);
+    // canvas.drawPath(p2, _mainPainter..color=Colors.red);
 
     Matrix4 reflexY = Matrix4.diagonal3Values(1, -1, 1);
     p2 = Path.combine(
