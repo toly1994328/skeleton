@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'shadow/shadow_painter_v1.dart';
+import 'shadow/shadow_painter_v2.dart';
 import 'snow/snow_painter.dart';
 import 'snow/snow_painter1.dart';
 
@@ -50,10 +52,11 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: CustomPaint(
-          size: const Size(400,400),
-          painter: SnowPainter(),
+          size: const Size(300,300),
+          painter: ShadowPainterV2(),
           // painter: SnowPainter1(),
         ),
       ),
