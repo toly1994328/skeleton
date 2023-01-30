@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'scan/animation_scanner.dart';
 import 'shadow/shadow_painter_v1.dart';
 import 'shadow/shadow_painter_v2.dart';
 import 'snow/snow_painter.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const AnimationScannerView(),
     );
   }
 }
@@ -52,10 +53,12 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
+      appBar: AppBar(title: Text("Flutter 路径阴影绘制"),),
       body: Center(
         child: CustomPaint(
           size: const Size(300,300),
+          // painter: ShadowPainterV1(),
           painter: ShadowPainterV2(),
           // painter: SnowPainter1(),
         ),

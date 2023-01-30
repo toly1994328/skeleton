@@ -14,52 +14,32 @@ class ShadowPainterV2 extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.translate(size.width / 2, size.height / 2);
-
-    // _mainPainter.maskFilter = MaskFilter.blur(BlurStyle.normal, Shadow.convertRadiusToSigma(14));
-    // _mainPainter.color=Colors.black.withOpacity(0.1);
+    canvas.translate(30, size.height / 2);
     double rate = 1 / 153 * size.width / 2;
     Path path = snowPath(rate);
-    canvas.translate(-350, 0);
     drawShadows(
         canvas,
         path,
         [
           BoxShadow(
-            color: Colors.redAccent.withOpacity(0.2),
-            offset: const Offset(0, -2),
+            color: Colors.blue.withOpacity(0.2),
+            offset: const Offset(5, 5),
             blurRadius: 6,
             spreadRadius: 0,
-          )
-        ]);
-    canvas.translate(350, 0);
-    drawShadows(
-        canvas,
-        path,
-        [BoxShadow(
-          color: Colors.blue.withOpacity(0.2),
-          offset: const Offset(0, 2),
-          blurRadius: 6,
-          spreadRadius: 0,
-        ),
+          ),
           BoxShadow(
             color: Colors.redAccent.withOpacity(0.2),
-            offset: const Offset(0, -2),
+            offset: const Offset(-2, -2),
             blurRadius: 6,
+            // blurStyle: BlurStyle.solid,
             spreadRadius: 0,
           )
         ]);
+
     canvas.translate(350, 0);
-    drawShadows(
-        canvas,
-        path,
-        [BoxShadow(
-          color: Colors.blue.withOpacity(0.2),
-          offset: const Offset(0, 2),
-          blurRadius: 6,
-          spreadRadius: 0,
-        )
-        ]);
+    canvas.drawShadow(path, Colors.blue.withOpacity(0.2), 4, false);
+    Paint whitePaint = Paint()..color = Colors.white;
+    canvas.drawPath(path, whitePaint);
   }
 
   void drawBoxes(Canvas canvas){
