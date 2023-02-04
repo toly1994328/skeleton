@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'digital_painter.dart';
+import 'digital_path.dart';
+import 'digital_widget.dart';
 
 void main() async {
   if (Platform.isWindows || Platform.isMacOS) {
@@ -52,9 +54,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _count = 0;
 
-  int get tenBit => _count ~/ 10;
-
-  int get oneBit => _count % 10;
+  final DigitalPath digitalPath = DigitalPath();
 
   @override
   Widget build(BuildContext context) {
@@ -63,25 +63,42 @@ class _MyHomePageState extends State<MyHomePage> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            _count = (_count + 1) % 100;
+            _count++;
             setState(() {});
           },
         ),
         body: Center(
-          child: Wrap(
-            spacing: 26,
-            children: [
-              CustomPaint(
-                size: const Size(104, 169),
-                painter: DigitalPainter(value: tenBit),
-              ),
-              CustomPaint(
-                size: const Size(104, 169),
-                painter: DigitalPainter(value: oneBit),
-              ),
-            ],
-          ),
-        ),
+            child: MultiDigitalWidget(
+              colors: [Colors.indigo,],
+          width: 86,
+          spacing: 16,
+          count: 4,
+          value: _count,
+        )
+
+            // Wrap(
+            //   spacing: 26,
+            //   children: [
+            //     // DigitalWidget(
+            //     //   width: 124,
+            //     //   value: 8,
+            //     //   color: Colors.blue,
+            //     //   digitalPath: digitalPath,
+            //     // ),
+            //     SingleDigitalWidget(
+            //       width: 54,
+            //       value: tenBit,
+            //       digitalPath: digitalPath,
+            //     ),
+            //     SingleDigitalWidget(
+            //       color: Colors.red,
+            //       width: 54,
+            //       value: oneBit,
+            //       digitalPath: digitalPath,
+            //     ),
+            //   ],
+            // ),
+            ),
       ),
     );
   }
