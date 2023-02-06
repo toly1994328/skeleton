@@ -7,7 +7,6 @@ class DigitalPath {
 
   static const double kDigitalRate = 169/104;
 
-  //
   final Map<String,Path> _digitalPathMap = {};
 
   DigitalPath(){
@@ -34,20 +33,15 @@ class DigitalPath {
   }
 
   void _initDigitalPathMap(){
-    Map<int,Path> map = {};
-
     _digitalPathMap.clear();
-    double strokeWidth = 26;
+    Map<int,Path> map = {};
     double width = 104;
     double height = 169;
-    double gap = 5;
-    double angle = 43;
-
     Path path1 = Path()
-      ..moveTo(gap, 0)
-      ..relativeLineTo(width-gap*2 , 0)
-      ..relativeLineTo(-strokeWidth/tan(angle*pi/180), strokeWidth)
-      ..lineTo(strokeWidth/tan(angle*pi/180)+gap, strokeWidth)..close();
+      ..moveTo(5, 0)
+      ..lineTo(99 , 0)
+      ..lineTo(71, 26)
+      ..lineTo(32.8, 26)..close();
 
     Path path2 = Path()
       ..moveTo(0, 2)
@@ -90,7 +84,7 @@ class DigitalPath {
     map[7] = path7;
 
     digitalMap.forEach((key, v) {
-      List<Path> paths = v.map<Path>((value) => map[value]!).toList();
+      List<Path> paths = v.map((value) => map[value]!).toList();
       Path path = combineAll(paths);
       _digitalPathMap[key] = path;
     });

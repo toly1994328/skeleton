@@ -65,14 +65,22 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             _count++;
             setState(() {});
+
           },
         ),
         body: Center(
-            child: MultiDigitalWidget(
-              colors: [Colors.indigo,],
-          width: 86,
+            child:
+            // SingleDigitalWidget(
+            //   color: Colors.black,
+            //   width: 104,
+            //   value: 8,
+            // )
+        //
+            MultiDigitalWidget(
+              colors: [Colors.red,Colors.orange,Colors.yellow,Colors.green,Colors.blue,Colors.indigo,Colors.purple,Colors.black],
+          width: 76,
           spacing: 16,
-          count: 4,
+          count: 8,
           value: _count,
         )
 
