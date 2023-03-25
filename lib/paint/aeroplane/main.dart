@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'views/home_page.dart';
+import 'play_board.dart';
 
 void main() async {
   if(Platform.isWindows||Platform.isMacOS){
@@ -11,7 +11,7 @@ void main() async {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 650),
+      size: Size(600, 600),
       center: true,
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
@@ -38,9 +38,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const PlayBoard(),
     );
   }
 }
-
 
