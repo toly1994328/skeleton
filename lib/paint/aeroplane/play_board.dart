@@ -4,14 +4,14 @@ import 'package:skeleton/paint/aeroplane/painter/chess_painter.dart';
 
 import 'model/chess_value.dart';
 
-class PlayBoard extends StatefulWidget {
-  const PlayBoard({Key? key}) : super(key: key);
+class AeroplaneBoard extends StatefulWidget {
+  const AeroplaneBoard({Key? key}) : super(key: key);
 
   @override
-  State<PlayBoard> createState() => _PlayBoardState();
+  State<AeroplaneBoard> createState() => _AeroplaneBoardState();
 }
 
-class _PlayBoardState extends State<PlayBoard> {
+class _AeroplaneBoardState extends State<AeroplaneBoard> {
   ChessValue chessValue = ChessValue();
 
   @override

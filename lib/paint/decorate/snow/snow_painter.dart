@@ -4,8 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SnowPainter extends CustomPainter {
-  final Paint _mainPainter = Paint()
-    ..color = const Color(0xff292869)
+  final Color color;
+
+  SnowPainter({this.color = const Color(0xff292869)});
+
+  late final Paint _mainPainter = Paint()
+    ..color = color
     ..style = PaintingStyle.fill;
 
   @override
@@ -42,7 +46,8 @@ class SnowPainter extends CustomPainter {
     matrix4.translate(-21 * rate, 0);
 
     matrix4 = Matrix4.rotationZ(-45 * pi / 180).multiplied(matrix4);
-    matrix4 = Matrix4.translationValues(42 * rate, -8 * rate, 0).multiplied(matrix4);
+    matrix4 =
+        Matrix4.translationValues(42 * rate, -8 * rate, 0).multiplied(matrix4);
     p2 = p2.transform(matrix4.storage);
     // canvas.drawPath(p2, _mainPainter..color=Colors.red);
 
@@ -57,16 +62,15 @@ class SnowPainter extends CustomPainter {
       ..moveTo(69 * rate, 0)
       ..relativeLineTo(36 * rate, -34 * rate)
       ..lineTo(83 * rate, 0)
-      ..relativeLineTo(36* rate - (83 - 69) * rate, 34 * rate)
+      ..relativeLineTo(36 * rate - (83 - 69) * rate, 34 * rate)
       ..close();
 
-    Path result = combineAll(
-        [p1, p2, p3]);
+    Path result = combineAll([p1, p2, p3]);
 
     for (int i = 0; i < 8; i++) {
       canvas.rotate(2 * pi / 8 * i);
       canvas.save();
-      canvas.drawPath(result.shift(Offset(24*rate, 0)), _mainPainter);
+      canvas.drawPath(result.shift(Offset(24 * rate, 0)), _mainPainter);
       canvas.restore();
     }
   }

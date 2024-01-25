@@ -25,13 +25,11 @@ class SkeletonPaper extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.translate(size.width / 2, size.height / 2);
-    // canvas.drawCircle(Offset.zero, 10, pointPaint);
-    print(size);
     drawLinker(canvas, linker);
-    linker.nodes.forEach((element) {
+    for (var element in linker.nodes) {
       pointPaint.color = Colors.blue;
       drawLinker(canvas, element);
-    });
+    }
   }
 
   @override

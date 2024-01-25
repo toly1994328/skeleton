@@ -33,10 +33,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  go_router: ^12.1.1
+  toly_menu: ^0.0.3
+
   dash_painter: ^1.0.2
   charts_flutter: ^0.12.0
-  window_manager: ^0.2.8
+  window_manager: ^0.3.7
   path_drawing: ^1.0.1
+  components:
+    path: packages/components
+  paint:
+    path: packages/paint
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -63,10 +63,8 @@ class ArrowPainter extends CustomPainter {
     Size portSize = Size(width, height);
 
     ArrowPath arrow = ArrowPath(
-      head:
-          PortPath(p0, portSize, portPath: const ThreeAnglePortPath(rate: 0.5)),
-      tail:
-          PortPath(p1, portSize, portPath: const ThreeAnglePortPath(rate: 0.8)),
+      head: PortPath(p0, portSize, portPath: const ThreeAnglePortPath(rate: 0.5)),
+      tail: PortPath(p1, portSize, portPath: const ThreeAnglePortPath(rate: 0.8)),
     );
 
     arrowPainter

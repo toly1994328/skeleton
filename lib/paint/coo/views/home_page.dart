@@ -12,14 +12,14 @@ import '../painter/painter_box.dart';
 import 'move_ctrl_button.dart';
 import 'scale_ctrl_button.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class CooPage extends StatefulWidget {
+  const CooPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<CooPage> createState() => _CooPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CooPageState extends State<CooPage> {
   final PointValues pointValues = PointValues();
   final FunctionManager fm = FunctionManager();
 

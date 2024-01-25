@@ -1,34 +1,62 @@
 import 'dart:math';
 
+import 'package:components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skeleton/src/arrow_path/arrow/arrow_path.dart';
 import 'package:skeleton/src/linker.dart';
 import 'package:skeleton/src/paper.dart';
 
+import 'navigation/menus/menu_scope/menu_scope.dart';
+import 'navigation/routers/app.dart';
+import 'navigation/transition/fade_page_transitions_builder.dart';
+
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  setSize();
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+   MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  final GoRouter _router = GoRouter(
+    initialLocation: '/draw/coo',
+    routes: <RouteBase>[appRoute],
+    onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
+      router.go('/404', extra: state.uri.toString());
+    },
+  );
+
+   late final MenuStore menuStore = MenuStore(
+     activeMenu: '/draw/coo',
+     expandMenus: ['/draw'],
+     goRouter: _router,
+   );
+
+
+   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return MenuScope(
+      notifier: menuStore,
+      child:  MaterialApp.router(
+        routerConfig:_router,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: "宋体",
+          primarySwatch: Colors.blue,
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.macOS: FadePageTransitionsBuilder(),
+            TargetPlatform.windows: FadePageTransitionsBuilder(),
+            TargetPlatform.linux: FadePageTransitionsBuilder(),
+          }),
+        ),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -61,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Center(
         child: GestureDetector(

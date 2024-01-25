@@ -38,45 +38,48 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const GameBoxPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class GameBoxPage extends StatefulWidget {
+  const GameBoxPage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<GameBoxPage> createState() => _GameBoxPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _GameBoxPageState extends State<GameBoxPage> {
   int _count = 0;
 
 
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Scaffold(
-        body:  Center(
-          child: SizedBox(
-              width: 800/2,
-              height: 1752/2,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  CustomPaint(
-                    painter: OuterShellPainter(),
-                  ),
-                  CustomPaint(
-                    painter: CtrlPainter(),
+    return   Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: LayoutBuilder(
+              builder: (ctx,cts)=> SizedBox(
+                  width: (800/1752)*cts.maxHeight,
+                  height: cts.maxHeight,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      CustomPaint(
+                        painter: OuterShellPainter(),
+                      ),
+                      CustomPaint(
+                        painter: CtrlPainter(),
+                      )
+                    ],
                   )
-                ],
-              )
+              ),
+            ),
           ),
-        ),
-      ),
+
+
     );
   }
 }
