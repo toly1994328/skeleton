@@ -42,6 +42,8 @@ dependencies:
   path_drawing: ^1.0.1
   components:
     path: packages/components
+  render2d:
+    path: packages/render2d
   paint:
     path: packages/paint
 dev_dependencies:
@@ -67,6 +69,7 @@ flutter:
     - shaders/dark.frag
     - shaders/mask.frag
     - shaders/gradation.frag
+    - shaders/rect_mask.frag
 
   assets:
     - assets/images/

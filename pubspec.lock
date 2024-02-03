@@ -206,6 +206,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
+  render2d:
+    dependency: "direct main"
+    description:
+      path: "packages/render2d"
+      relative: true
+    source: path
+    version: "0.0.1"
   screen_retriever:
     dependency: transitive
     description:
