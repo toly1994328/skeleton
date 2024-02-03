@@ -6,7 +6,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/services.dart';
 import 'package:skeleton/src/anim/run/playground.dart';
 
-import 'playground2.dart';
+import 'control_tools.dart';
 
 class RunCar extends StatefulWidget {
   const RunCar({Key? key}) : super(key: key);
@@ -17,25 +17,28 @@ class RunCar extends StatefulWidget {
 
 class _RunCarState extends State<RunCar> with SingleTickerProviderStateMixin {
   ui.Image? _image;
-  late AnimationController _controller;
 
-  // ValueNotifier<Matrix4> _matrix = ValueNotifier(Matrix4.identity()) ;
-  late Animation<Matrix4> _matrix;
-  Matrix4 lastMatrix = Matrix4.identity();
-  TextEditingController _durationCtrl = TextEditingController(text: '1000');
+  final ValueNotifier<Matrix4> _matrix = ValueNotifier(Matrix4.identity());
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
-    // _controller.addListener(_ticker);
-    _matrix = Matrix4Tween(begin: Matrix4.identity(), end: Matrix4.identity())
-        .animate(_controller);
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
     _loadImage();
+    _initTween();
   }
 
-  void _ticker() {}
+  late Matrix4Tween moveTween;
+  late Matrix4Tween rotateTween;
+
+  void _initTween() {
+    rotateTween = Matrix4Tween(begin: Matrix4.rotationZ(0), end: Matrix4.rotationZ(pi/2));
+    moveTween = Matrix4Tween(begin: Matrix4.translationValues(0, 0, 0), end: Matrix4.translationValues(100, 0, 0));
+  }
 
   @override
   void dispose() {
@@ -47,67 +50,20 @@ class _RunCarState extends State<RunCar> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildTools(),
-            const SizedBox(
-              height: 24,
-            ),
             CustomPaint(
-              size: Size(400, 400),
+              size: const Size(400, 400),
               painter: Playground(_image, _matrix),
-              // painter: Playground2(_image),
+            ),
+            ControlTools(
+              onReset: _onReset,
+              onMove: _onMove,
+              onRotate: _onRotate,
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  //    // Matrix4 matrix4 = Matrix4.identity();
-  //     // matrix4.translate(50.0+100*animation.value, 50.0);
-  //     // matrix4.rotateZ(pi/2);
-  //     // matrix4.translate(-50.0, -50.0);
-  //     // Matrix4 matrix4 = Matrix4.rotationZ();
-
-  Widget _buildTools() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0),
-      child: Row(
-        children: [
-          Expanded(
-              child: TextField(
-            controller: _durationCtrl,
-          )),
-          GestureDetector(
-            onTap: _resetMatrix,
-            child: Icon(
-              Icons.refresh,
-              color: Colors.blue,
-            ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          GestureDetector(
-            onTap: _rotate,
-            child: Icon(
-              Icons.rotate_90_degrees_ccw,
-              color: Colors.blue,
-            ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          GestureDetector(
-            onTap: _run,
-            child: Icon(
-              Icons.run_circle_outlined,
-              color: Colors.blue,
-            ),
-          )
-        ],
       ),
     );
   }
@@ -123,50 +79,27 @@ class _RunCarState extends State<RunCar> with SingleTickerProviderStateMixin {
     setState(() {});
   }
 
-  void _rotate() {
+  final Matrix4 moveCenter = Matrix4.translationValues(50, 50, 0);
+  final Matrix4 moveBack = Matrix4.translationValues(-50, -50, 0);
 
-    int? inputDuration = int.tryParse(_durationCtrl.text);
-
-    if (inputDuration != null) {
-      _controller.duration = Duration(milliseconds: inputDuration);
-    }
-
-    Matrix4 rotate90 = Matrix4.rotationZ(pi/2);
-    Matrix4 center = Matrix4.translationValues(50.0, 50.0, 0);
-    Matrix4 centerBack = Matrix4.translationValues(-50.0, -50.0, 0);
-    Matrix4 _temp = lastMatrix.clone();
-    _temp.multiply(center);
-    _temp.multiply(rotate90);
-    Matrix4 end = _temp.multiplied(centerBack);
-
-    _matrix =
-        Matrix4Tween(begin: lastMatrix, end: end).animate(_controller);
-    lastMatrix = end;
-    setState(() {});
+  void _onRotate() {
+    Matrix4 start  = _matrix.value.clone();
+    Animation<Matrix4> m4Tween = rotateTween.animate(_controller);
+    m4Tween.addListener(() {
+      Matrix4 rotate = moveCenter.multiplied(m4Tween.value).multiplied(moveBack);
+      _matrix.value = start.multiplied(rotate);
+    });
     _controller.forward(from: 0);
   }
 
-  void _run() {
-
-
-    int? inputDuration = int.tryParse(_durationCtrl.text);
-
-    if (inputDuration != null) {
-      _controller.duration = Duration(milliseconds: inputDuration);
-    }
-
-
-
-    Matrix4 translateX = Matrix4.translationValues(100, 0, 0);
-    Matrix4 end = lastMatrix.multiplied(translateX);
-
-    _matrix =
-        Matrix4Tween(begin: lastMatrix, end: end).animate(_controller);
-    lastMatrix = end;
-    setState(() {});
+  void _onMove() {
+    Matrix4 start = _matrix.value.clone();
+    Animation<Matrix4> m4Anima = moveTween.animate(_controller);
+    m4Anima.addListener(() => _matrix.value = start.multiplied(m4Anima.value));
     _controller.forward(from: 0);
   }
-  void _resetMatrix() {
-    // _matrix.value = Matrix4.identity();
+
+  void _onReset() {
+    _matrix.value = Matrix4.identity();
   }
 }

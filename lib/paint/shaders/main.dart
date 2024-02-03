@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'color_shader_demo.dart';
+import 'gradation_demo.dart';
 import 'image2_shader_demo.dart';
 import 'image_shader_demo.dart';
 import 'mask_shader_demo.dart';
@@ -49,7 +50,8 @@ class HomePage extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            ColorShaderDemo(),
+            // ColorShaderDemo(),
+            GradationDemo(),
             ImageShaderDemo(),
             Image2ShaderDemo(),
             MaskShaderDemo(),

@@ -18,10 +18,8 @@ class Playground extends CustomPainter {
     if (image != null) {
       canvas.save();
       canvas.transform(matrix.value.storage);
-      // canvas.translate(100*animation.value, 0);
       drawCarWithRange(canvas, paint);
       canvas.restore();
-      // drawCarImageRect(canvas, paint);
     }
   }
 
@@ -33,7 +31,7 @@ class Playground extends CustomPainter {
 
     // 绘制图片
     canvas.drawImage(image!, Offset.zero, paint);
-    canvas.drawCircle(Offset(50, 50), 5, Paint()..color=Colors.redAccent);
+    // canvas.drawCircle(Offset(50, 50), 5, Paint()..color=Colors.redAccent);
   }
 
   void drawCarImageRect(Canvas canvas, Paint paint) {
@@ -65,7 +63,7 @@ class Playground extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant Playground oldDelegate) {
+    return oldDelegate.image!=image;
   }
 }

@@ -66,6 +66,7 @@ flutter:
     - shaders/image.frag
     - shaders/dark.frag
     - shaders/mask.frag
+    - shaders/gradation.frag
 
   assets:
     - assets/images/
