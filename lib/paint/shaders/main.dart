@@ -4,6 +4,7 @@ import 'color_shader_demo.dart';
 import 'image2_shader_demo.dart';
 import 'image_shader_demo.dart';
 import 'mask_shader_demo.dart';
+import 'rect_mask_shader_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -42,17 +43,21 @@ class HomePage extends StatelessWidget {
             Tab(text: '颜色',),
             Tab(text: '贴图',),
             Tab(text: '黑白',),
-            Tab(text: '马赛克',),
+            Tab(text: '矩形马赛克',),
+            Tab(text: '圆形马赛克',),
           ],
 
           ),
         ),
         body: const TabBarView(
           children: [
+            RectMaskShaderDemo(),
+
             ColorShaderDemo(),
             ImageShaderDemo(),
             Image2ShaderDemo(),
             MaskShaderDemo(),
+
           ],
         ),
       ),
