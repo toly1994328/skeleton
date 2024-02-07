@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'color_shader_demo.dart';
-import 'gradation_demo.dart';
+import 'color_coo_page.dart';
 import 'image2_shader_demo.dart';
 import 'image_shader_demo.dart';
-import 'mask_shader_demo.dart';
 import 'rect_mask_shader_demo.dart';
 
 void main() {
@@ -21,8 +19,9 @@ class MyApp extends StatelessWidget {
       title: 'Simple Shader Demo',
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
-        fontFamily: '黑体'
+        fontFamily: '宋体'
       ),
       home: const HomePage(),
     );
@@ -35,31 +34,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Shader 测试案例'),
           bottom: const TabBar(tabs: [
-            Tab(text: '颜色',),
+            Tab(text: '颜色+坐标',),
+            Tab(text: '变量',),
             Tab(text: '贴图',),
-            Tab(text: '黑白',),
-            Tab(text: '矩形马赛克',),
-            Tab(text: '圆形马赛克',),
+            Tab(text: '特效',),
+            // Tab(text: '马赛克',),
           ],
-
           ),
         ),
         body: const TabBarView(
           children: [
-            // ColorShaderDemo(),
-            GradationDemo(),
-            RectMaskShaderDemo(),
             ColorShaderDemo(),
+            RectMaskShaderDemo(),
             ImageShaderDemo(),
             Image2ShaderDemo(),
-            MaskShaderDemo(),
-
           ],
         ),
       ),

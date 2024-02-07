@@ -13,7 +13,6 @@ class CodeView extends StatefulWidget {
 }
 
 class _CodeViewState extends State<CodeView> {
-
   String? content;
 
   @override
@@ -23,24 +22,34 @@ class _CodeViewState extends State<CodeView> {
   }
 
   @override
+  void didUpdateWidget(covariant CodeView oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(oldWidget.path!=widget.path){
+      _loadContent();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: Colors.white,
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Material(
-            child: CodeWidget(code:'${content}', style: HighlighterStyle.fromColors(HighlighterStyle.lightColor),),
+            child: CodeWidget(
+              code: '${content}',
+              style: HighlighterStyle.fromColors(HighlighterStyle.lightColor),
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _loadContent() async{
+  void _loadContent() async {
     content = await rootBundle.loadString(widget.path);
-    setState(() {
-
-    });
+    setState(() {});
   }
 }

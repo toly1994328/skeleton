@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:render2d/render2d.dart';
 import 'dart:ui' as ui;
 
+import 'shape_show.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,8 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue, scaffoldBackgroundColor: Colors.white),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -43,36 +44,39 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.save),
-        onPressed: createCanvas,
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: const Icon(Icons.save),
+      //   onPressed: createCanvas,
+      // ),
       body: Center(
-        child: CustomPaint(
-          size: const Size(400, 400),
-          painter: _painter,
+        child: Wrap(
+          spacing: 20,
+          children: [
+            ShapeShow(
+              pathBuilder:  Line(LineShape(x1: 0,y1: 0,x2: 100,y2: 100)),
+            ),
+            ShapeShow(
+              pathBuilder: Circle(CircleShape(cx: 50, cy: 50, r: 50)),
+            ),
+            ShapeShow(
+              pathBuilder: Arc(
+                ArcShape(
+                    cx: 50,
+                    cy: 50,
+                    r: 50,
+                    startAngle: 0 * pi / 180,
+                    endAngle: 120 * pi / 180,
+                    clockwise: false),
+              ),
+            ),
+            ShapeShow(
+              pathBuilder:  Ring(RingShape(cx: 50, cy: 50, r: 50, r0: 30)),
+            ),
+
+          ],
         ),
       ),
     );
-  }
-
-  void createCanvas() async {
-    PictureRecorder recorder = PictureRecorder();
-    Canvas canvas = Canvas(recorder);
-    Size boxSize = const Size(10240, 10240);
-    _painter.paint(canvas, boxSize);
-    Picture picture = recorder.endRecording();
-    int imgWidth = boxSize.width.toInt();
-    int imgHeight = boxSize.height.toInt();
-    ui.Image image = await picture.toImage(imgWidth, imgHeight);
-    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-    if (byteData != null) {
-      File file = File("D:\\Temp\\canvas\\box_${imgWidth}_${imgHeight}.png");
-      if (!file.existsSync()) {
-        await file.create(recursive: true);
-      }
-      file.writeAsBytes(byteData.buffer.asUint8List());
-    }
   }
 }
 
@@ -108,7 +112,6 @@ class ShapePainter extends CustomPainter {
 
     Ring ring = Ring(RingShape(cx: 100, cy: 240, r: 50, r0: 30));
     canvas.drawPath(ring.builder(), Paint());
-
   }
 
   @override

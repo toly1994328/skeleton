@@ -65,6 +65,9 @@ flutter:
   uses-material-design: true
   shaders:
     - shaders/color.frag
+    - shaders/color1.frag
+    - shaders/color2.frag
+    - shaders/color3.frag
     - shaders/image.frag
     - shaders/dark.frag
     - shaders/mask.frag
@@ -73,6 +76,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/code/shaders/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

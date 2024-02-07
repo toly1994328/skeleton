@@ -39,6 +39,7 @@ class CodeWidget extends StatelessWidget {
       body = SingleChildScrollView(
         child: Container(
           child: _codeWidget,
+          width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: style.backgroundColor ?? const Color(0xffF6F8FA),

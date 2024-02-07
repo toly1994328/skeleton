@@ -32,10 +32,9 @@ class Circle extends PathBuilder {
 
   @override
   Path builder() {
-    print(shape);
     Rect rect = Rect.fromCircle(
-      center: Offset(shape.cx, shape.cy),
-      radius: shape.r,
+      center: Offset(shape.cx-1, shape.cy-1),
+      radius: shape.r-1,
     );
     Path path = Path();
     path.arcTo(rect, 0, pi, false);
