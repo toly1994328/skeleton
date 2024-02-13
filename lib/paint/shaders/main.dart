@@ -4,6 +4,7 @@ import 'color_coo_page.dart';
 import 'image2_shader_demo.dart';
 import 'image_shader_demo.dart';
 import 'rect_mask_shader_demo.dart';
+import 'var_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +52,8 @@ class HomePage extends StatelessWidget {
         body: const TabBarView(
           children: [
             ColorShaderDemo(),
-            RectMaskShaderDemo(),
+            VarPage(),
+            // RectMaskShaderDemo(),
             ImageShaderDemo(),
             Image2ShaderDemo(),
           ],

@@ -68,6 +68,7 @@ flutter:
     - shaders/color1.frag
     - shaders/color2.frag
     - shaders/color3.frag
+    - shaders/var_01.frag
     - shaders/image.frag
     - shaders/dark.frag
     - shaders/mask.frag
