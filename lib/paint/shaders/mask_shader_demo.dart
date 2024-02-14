@@ -40,7 +40,7 @@ class _MaskShaderDemoState extends State<MaskShaderDemo> {
 
   void loadShader() async {
     FragmentProgram program =
-        await FragmentProgram.fromAsset('shaders/mask.frag');
+        await FragmentProgram.fromAsset('shaders/se_mask.frag');
     shader = program.fragmentShader();
     setState(() {});
   }

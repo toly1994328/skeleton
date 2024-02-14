@@ -32,7 +32,7 @@ class _ImageShaderDemoState extends State<ImageShaderDemo> {
     }
     return Center(
       child: CustomPaint(
-        size: Size(500 * 0.8, 658 * 0.8),
+        size: Size(1280 * 0.25, 1706 * 0.25),
         painter: ShaderPainter(shader: shader!, image: image!),
       ),
     );
@@ -46,7 +46,7 @@ class _ImageShaderDemoState extends State<ImageShaderDemo> {
   }
 
   void loadImage() async {
-    image = await loadImageFromAssets('assets/images/sabar.webp');
+    image = await loadImageFromAssets('assets/images/ac.webp');
     setState(() {});
   }
 

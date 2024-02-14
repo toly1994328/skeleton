@@ -69,11 +69,13 @@ flutter:
     - shaders/color2.frag
     - shaders/color3.frag
     - shaders/var_01.frag
+    - shaders/var_02.frag
+    - shaders/var_03.frag
+    - shaders/var_04.frag
     - shaders/image.frag
-    - shaders/dark.frag
-    - shaders/mask.frag
-    - shaders/gradation.frag
-    - shaders/rect_mask.frag
+    - shaders/se_dark.frag
+    - shaders/se_mask.frag
+    - shaders/se_mask_rect.frag
 
   assets:
     - assets/images/

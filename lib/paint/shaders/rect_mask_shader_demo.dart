@@ -40,7 +40,7 @@ class _RectMaskShaderDemoState extends State<RectMaskShaderDemo> {
 
   void loadShader() async {
     FragmentProgram program =
-        await FragmentProgram.fromAsset('shaders/rect_mask.frag');
+        await FragmentProgram.fromAsset('shaders/se_mask_rect.frag');
     shader = program.fragmentShader();
     setState(() {});
   }

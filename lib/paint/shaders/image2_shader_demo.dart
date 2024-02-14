@@ -39,7 +39,7 @@ class _Image2ShaderDemoState extends State<Image2ShaderDemo> {
   }
 
   void loadShader() async {
-    FragmentProgram program = await FragmentProgram.fromAsset('shaders/dark.frag');
+    FragmentProgram program = await FragmentProgram.fromAsset('shaders/se_dark.frag');
     shader = program.fragmentShader();
     setState(() {});
   }
