@@ -68,6 +68,11 @@ flutter:
     - shaders/color1.frag
     - shaders/color2.frag
     - shaders/color3.frag
+    - shaders/fancy_01.frag
+    - shaders/fancy_02_length.frag
+    - shaders/fancy_03.frag
+    - shaders/fancy_04.frag
+    - shaders/fancy_05.frag
     - shaders/var_01.frag
     - shaders/var_02.frag
     - shaders/var_03.frag

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'color_coo_page.dart';
+import 'fancy_demo/fany_page.dart';
 import 'image2_shader_demo.dart';
 import 'image_shader_demo.dart';
 import 'rect_mask_shader_demo.dart';
@@ -53,8 +54,10 @@ class HomePage extends StatelessWidget {
             ColorShaderDemo(),
             VarPage(),
             // RectMaskShaderDemo(),
-            ImageShaderDemo(),
+            // ImageShaderDemo(),
             Image2ShaderDemo(),
+            FancyPage(),
+
           ],
         ),
       ),

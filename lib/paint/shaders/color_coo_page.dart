@@ -17,7 +17,8 @@ class _ColorShaderDemoState extends State<ColorShaderDemo> {
     {'file': 'shaders/color.frag', 'title': '纯颜色',},
     {'file': 'shaders/color1.frag', 'title': '二分色',},
     {'file': 'shaders/color2.frag', 'title': '四分色',},
-    {'file': 'shaders/color3.frag', 'title': '渐变色',}
+    {'file': 'shaders/color3.frag', 'title': '渐变色',},
+    {'file': 'shaders/fancy_01.frag', 'title': '多色渐变',}
   ];
 
   String _activeTab = 'shaders/color.frag';
