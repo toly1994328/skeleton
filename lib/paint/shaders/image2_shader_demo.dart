@@ -23,6 +23,7 @@ class _Image2ShaderDemoState extends State<Image2ShaderDemo> {
     loadImage();
   }
 
+
   @override
   Widget build(BuildContext context) {
     if (shader == null || image == null) {
@@ -48,6 +49,8 @@ class _Image2ShaderDemoState extends State<Image2ShaderDemo> {
     image = await loadImageFromAssets('assets/images/sabar.webp');
     setState(() {});
   }
+
+
 
   //读取 assets 中的图片
   Future<ui.Image> loadImageFromAssets(String path) async {

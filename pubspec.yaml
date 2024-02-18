@@ -80,7 +80,7 @@ flutter:
     - shaders/image.frag
     - shaders/se_dark.frag
     - shaders/se_mask.frag
-    - shaders/se_mask_rect.frag
+    - shaders/eff_01_mask_rect.frag
 
   assets:
     - assets/images/

@@ -9,7 +9,7 @@ uniform sampler2D uTexture;
 
 void main() {
     float rate = uSize.x / uSize.y;
-    float countInRow = 10.0;
+    float countInRow =2.0;
     float countInColumn = countInRow / rate;
     vec2 pos = FlutterFragCoord().xy / uSize;
 
