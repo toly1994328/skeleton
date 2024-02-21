@@ -12,5 +12,5 @@ out vec4 fragColor;
 void main() {
     vec2 coo = FlutterFragCoord().xy / uSize;
     vec4 color = texture(uTexture, coo);
-    fragColor = color;
+    fragColor = mix(color,vec4(5, 83, 177, 255) / 255,coo.x);
 }

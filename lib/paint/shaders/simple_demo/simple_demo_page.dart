@@ -9,30 +9,33 @@ import 'dart:ui' as ui;
 import '../components/switch_tabs.dart';
 import 'e2_painter.dart';
 
-class EffectPage extends StatefulWidget {
-  const EffectPage({super.key});
+class SimpleDemoPage extends StatefulWidget {
+  const SimpleDemoPage({super.key});
 
   @override
-  State<EffectPage> createState() => _EffectPageState();
+  State<SimpleDemoPage> createState() => _SimpleDemoPageState();
 }
 
-class _EffectPageState extends State<EffectPage> {
+class _SimpleDemoPageState extends State<SimpleDemoPage> {
   FragmentShader? shader;
 
   List<Map<String, dynamic>> data = [
     {
-      'file': 'shaders/eff_01_mask_rect.frag',
-      'title': '马赛克',
+      'file': 'shaders/base_01_circle_step1.frag',
+      'title': '圆形',
       'step': [
-        'shaders/eff_01_step1.frag',
-        'shaders/eff_01_step2.frag',
-        'shaders/eff_01_step3.frag',
-        'shaders/eff_01_mask_rect.frag',
+        'shaders/base_01_circle_step1.frag',
+        'shaders/base_01_circle_step2.frag',
+        'shaders/base_01_circle_step3.frag',
+        'shaders/base_01_circle_step4.frag',
+        'shaders/base_01_circle_step5.frag',
+        'shaders/base_01_circle_step6.frag',
+        'shaders/base_01_circle_step7.frag',
       ]
     },
     {
-      'file': 'shaders/fancy_02_length.frag',
-      'title': '色彩效果',
+      'file': 'shaders/eff_02_step1.frag',
+      'title': '圆形',
     },
     {
       'file': 'shaders/fancy_03.frag',
@@ -48,7 +51,7 @@ class _EffectPageState extends State<EffectPage> {
     // },
   ];
 
-  String _activeTab = 'shaders/eff_01_mask_rect.frag';
+  String _activeTab = 'shaders/base_01_circle_step1.frag';
   int _currentStep = 0;
   int maxPage = 0;
   ui.Image? image;
@@ -62,7 +65,7 @@ class _EffectPageState extends State<EffectPage> {
   }
 
   void loadImage() async {
-    image = await loadImageFromAssets('assets/images/ac.webp');
+    image = await loadImageFromAssets('assets/images/ac_rect.webp');
     setState(() {});
   }
 
@@ -136,7 +139,7 @@ class _EffectPageState extends State<EffectPage> {
   double time = 0;
 
   Widget _buildByTab() {
-    if (_activeTab == 'shaders/fancy_02_length.frag' ||
+    if (_activeTab == 'shaders/eff_02_step1.frag' ||
         _activeTab == 'shaders/fancy_03.frag' ||
         _activeTab == 'shaders/fancy_04.frag' ||
         _activeTab == 'shaders/fancy_05.frag') {
@@ -144,9 +147,8 @@ class _EffectPageState extends State<EffectPage> {
         children: [
           CustomPaint(
             size: const Size(300, 300),
-            painter: F2ShaderPainter(
+            painter: S2ShaderPainter(
               shader: shader!,
-              time: time,
             ),
           ),
           Slider(
@@ -169,17 +171,26 @@ class _EffectPageState extends State<EffectPage> {
         children: [
           Row(
             children: [
-              IconButton(onPressed: _currentStep==0?null:prev, icon: Icon(Icons.navigate_before)),
+              IconButton(
+                  onPressed: _currentStep == 0 ? null : prev,
+                  icon: Icon(Icons.navigate_before)),
               Expanded(
                 child: Center(
-                  child: CustomPaint(
-                    size: const Size(1280 * 0.2, 1706 * 0.2),
-                    painter: ShaderPainter(shader: shader!, image: image!),
-                  ),
+                  child: _currentStep == 5||_currentStep == 6
+                      ? CustomPaint(
+                          size: const Size(300, 300),
+                          painter:
+                              ShaderPainter(shader: shader!, image: image!),
+                        )
+                      : CustomPaint(
+                          size: const Size(300, 300),
+                          painter: S2ShaderPainter(shader: shader!),
+                        ),
                 ),
               ),
               IconButton(
-                  onPressed:  _currentStep==maxPage-1?null:next, icon: Icon(Icons.navigate_next_sharp)),
+                  onPressed: _currentStep == maxPage - 1 ? null : next,
+                  icon: Icon(Icons.navigate_next_sharp)),
             ],
           ),
           Padding(
@@ -212,7 +223,10 @@ class _EffectPageState extends State<EffectPage> {
 }
 
 class ShaderPainter extends CustomPainter {
-  ShaderPainter({required this.shader, required this.image});
+  ShaderPainter({
+    required this.shader,
+    required this.image,
+  });
 
   FragmentShader shader;
   ui.Image image;

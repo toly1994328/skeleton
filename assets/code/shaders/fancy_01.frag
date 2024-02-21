@@ -5,7 +5,7 @@ precision mediump float;
 out vec4 fragColor;
 
 void main() {
-    vec2 size = vec2(400.0, 200.0);
+    vec2 size = vec2(300.0, 300.0);
     vec2 coo = FlutterFragCoord().xy / size;
     coo = coo - 0.5; //[-0.5,0.5]
     coo = coo * 2.0; //[-1,1]

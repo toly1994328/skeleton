@@ -14,12 +14,12 @@ void main() {
     coo = coo * 2.0; //[-1,1]
     float d = length(coo);
 
-    //    d -=0.5;
+//    d -=0.5;
     d = sin(d*8. + uTime)/8.;
 
     d = abs(d);
-    //    d = step(0.1,d);
-    //    d = smoothstep(0,0.1,d);
+//    d = step(0.1,d);
+//    d = smoothstep(0,0.1,d);
 
     d = 0.02/d;
     col*=d;

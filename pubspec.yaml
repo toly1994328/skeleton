@@ -77,6 +77,17 @@ flutter:
     - shaders/var_02.frag
     - shaders/var_03.frag
     - shaders/var_04.frag
+    - shaders/eff_01_step1.frag
+    - shaders/eff_01_step2.frag
+    - shaders/eff_01_step3.frag
+    - shaders/base_01_circle_step1.frag
+    - shaders/base_01_circle_step2.frag
+    - shaders/base_01_circle_step3.frag
+    - shaders/base_01_circle_step4.frag
+    - shaders/base_01_circle_step5.frag
+    - shaders/base_01_circle_step6.frag
+    - shaders/base_01_circle_step7.frag
+    - shaders/eff_02_step1.frag
     - shaders/image.frag
     - shaders/se_dark.frag
     - shaders/se_mask.frag

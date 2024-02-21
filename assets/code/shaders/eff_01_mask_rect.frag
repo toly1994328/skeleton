@@ -8,14 +8,11 @@ uniform vec2 uSize;
 uniform sampler2D uTexture;
 
 void main() {
-    float rate = uSize.x / uSize.y;
-    float countInRow =2.0;
-    float countInColumn = countInRow / rate;
-    vec2 pos = FlutterFragCoord().xy / uSize;
-
-    float x = floor(pos.x * countInRow)/ countInRow;
-    float y = floor(pos.y * countInColumn) / countInColumn;
-
-    fragColor = texture(uTexture, vec2(x, y));
+    vec2 coo = FlutterFragCoord().xy / uSize;
+    float rowCount = 40.0;
+    float x = floor(coo.x * rowCount)/ rowCount;
+    float y = floor(coo.y * rowCount)/ rowCount;
+    fragColor = texture(uTexture, vec2(x,y));
+//    fragColor = vec4(x,0,0,1);
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SwitchTabs extends StatelessWidget {
-  final List<Map<String, String>> data;
+  final List<Map<String, dynamic>> data;
   final String activeTab;
   final ValueChanged<String> onTabChanged;
 
@@ -22,7 +22,7 @@ class SwitchTabs extends StatelessWidget {
         children: _buildMap(data));
   }
 
-  Map<String, Widget> _buildMap(List<Map<String, String>> data) {
+  Map<String, Widget> _buildMap(List<Map<String, dynamic>> data) {
     Map<String, Widget> result = {};
     for (int i = 0; i < data.length; i++) {
       result[data[i]['file']!] = Padding(

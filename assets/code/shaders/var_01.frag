@@ -7,5 +7,5 @@ out vec4 fragColor;
 
 void main() {
     vec2 coo = FlutterFragCoord().xy/uSize;
-    fragColor = vec4(1,0.0,0.0,1.0);
+    fragColor = vec4(coo.x,0.0,0.0,1.0);
 }

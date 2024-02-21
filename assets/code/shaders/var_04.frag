@@ -10,7 +10,7 @@ uniform sampler2D uTexture;
 out vec4 fragColor;
 
 void main() {
-    vec2 coo = FlutterFragCoord().xy/uSize;
+    vec2 coo = FlutterFragCoord().xy / uSize;
     vec4 color = texture(uTexture, coo);
-    fragColor = mix(color,ucolor,progress);
+    fragColor = mix(color, uColor, progress);
 }

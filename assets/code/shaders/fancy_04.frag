@@ -6,40 +6,41 @@ out vec4 fragColor;
 uniform float uTime;
 uniform vec2 uSize;
 
-vec3 palette(float t,vec3 a,vec3 b,vec3 c,vec3 d){
-    return a+b*cos(6.28318*(c*t+d));
+
+vec3 palette( float t ) {
+    vec3 a = vec3(0.5, 0.5, 0.5);
+    vec3 b = vec3(0.5, 0.5, 0.5);
+    vec3 c = vec3(1.0, 1.0, 1.0);
+    vec3 d = vec3(0.263,0.416,0.557);
+    return a + b*cos( 6.28318*(c*t+d) );
 }
 
 void main() {
-    vec2 coo = FlutterFragCoord().xy / uSize;
-    coo = coo - 0.5; //[-0.5,0.5]
-    coo = coo * 2.0; //[-1,1]
+    vec2 fragCoord = FlutterFragCoord().xy;
+    vec2 iResolution = uSize;
+    float iTime = uTime;
+    vec2 uv = (fragCoord * 2.0 - iResolution.xy) / iResolution.y;
+    vec2 uv0 = uv;
+    vec3 finalColor = vec3(0.0);
 
-    coo = fract(coo*2)-0.5;
+    for (float i = 0.0; i < 4.0; i++) {
+        uv = fract(uv * 1.5) - 0.5;
 
-    float d = length(coo);
+        float d = length(uv) * exp(-length(uv0));
 
+        vec3 col = palette(length(uv0) + i*.4 + iTime*.4);
 
-///step1
-//    vec3 col = vec3(1.0, 2.0, 3.0);
-//    d = sin(d * 8. + uTime) / 8.;
-//    d = abs(d);
-//    d = 0.02 / d;
-//    col *= d;
-//    fragColor = vec4(col, 1.0);
+        d = sin(d*8. + iTime)/8.;
+        d = abs(d);
 
-    vec3 a1 = vec3(0.5, 0.5, 0.5);
-    vec3 b1 = vec3(0.5, 0.5, 0.5);
-    vec3 c1= vec3(1.0, 1.0, 1.0);
-    vec3 d1 = vec3(0.263,0.416,0.557);
-    vec3 col = palette(d,a1,b1,c1,d1);
+        d = pow(0.01 / d, 1.2);
 
-    d = sin(d * 8. + uTime) / 8.;
-    d = abs(d);
-    d = 0.02 / d;
-    col *= d;
+        finalColor += col * d;
+    }
 
+    fragColor = vec4(finalColor, 1.0);
+}
 
-
-    fragColor = vec4(col, 1.0);
+vec3 palette(float t,vec3 a,vec3 b,vec3 c,vec3 d){
+    return a+b*cos(6.28318*(c*t+d));
 }
