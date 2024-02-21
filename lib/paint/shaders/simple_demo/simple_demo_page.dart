@@ -34,16 +34,16 @@ class _SimpleDemoPageState extends State<SimpleDemoPage> {
       ]
     },
     {
-      'file': 'shaders/eff_02_step1.frag',
-      'title': '圆形',
+      'file': 'shaders/base_02_polygon_step1.frag',
+      'title': '多边形',
     },
     {
       'file': 'shaders/fancy_03.frag',
-      'title': '常见特效',
+      'title': '变换',
     },
     {
       'file': 'shaders/fancy_04.frag',
-      'title': '复杂特效',
+      'title': '创意图形',
     },
     // {
     //   'file': 'shaders/fancy_05.frag',
@@ -176,7 +176,7 @@ class _SimpleDemoPageState extends State<SimpleDemoPage> {
                   icon: Icon(Icons.navigate_before)),
               Expanded(
                 child: Center(
-                  child: _currentStep == 5||_currentStep == 6
+                  child: _currentStep == 5 || _currentStep == 6
                       ? CustomPaint(
                           size: const Size(300, 300),
                           painter:

@@ -47,9 +47,9 @@ class HomePage extends StatelessWidget {
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             tabs: [
-            Tab(text: '颜色+坐标',),
+            Tab(text: '颜色坐标',),
             Tab(text: '变量传参',),
-            Tab(text: '测试案例',),
+            Tab(text: '图形区域',),
             Tab(text: '贴图特效',),
             Tab(text: '炫彩创意',),
           ],
@@ -57,10 +57,11 @@ class HomePage extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            SimpleDemoPage(),
 
             ColorShaderDemo(),
             VarPage(),
+            SimpleDemoPage(),
+
             EffectPage(),
             // RectMaskShaderDemo(),
             // ImageShaderDemo(),
