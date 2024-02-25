@@ -9,8 +9,8 @@ uniform sampler2D uTexture;
 
 void main() {
     vec2 coo = FlutterFragCoord().xy / uSize;
-    float count = 50.0;
-    float x = floor(coo.x * count)/ count;
-    fragColor = texture(uTexture, vec2(x,coo.y));
+    float count = 40.0;
+    float x = floor(coo.x * count) / count;
+    fragColor = texture(uTexture, vec2(x, coo.y));
 }
 
