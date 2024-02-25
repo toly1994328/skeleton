@@ -5,9 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:skeleton/paint/shaders/simple_demo/smooth_player_painter.dart';
 import 'dart:ui' as ui;
 import '../components/switch_tabs.dart';
 import 'e2_painter.dart';
+import 'image_shader_painter.dart';
 
 class SimpleDemoPage extends StatefulWidget {
   const SimpleDemoPage({super.key});
@@ -31,20 +33,33 @@ class _SimpleDemoPageState extends State<SimpleDemoPage> {
         'shaders/base_01_circle_step5.frag',
         'shaders/base_01_circle_step6.frag',
         'shaders/base_01_circle_step7.frag',
+        'shaders/base_02_smooth_step1.frag',
+      ]
+    },
+    {
+      'file': 'shaders/base_02_smooth_step1.frag',
+      'title': '平滑过渡',
+      'step': [
+        'shaders/base_02_smooth_step1.frag',
+        'shaders/base_02_smooth_step2.frag',
+        'shaders/base_02_smooth_step3.frag',
+      ]
+    },
+    {
+      'file': 'shaders/base_03_line_step1.frag',
+      'title': '线',
+      'step': [
+        'shaders/base_03_line_step1.frag',
+        'shaders/base_03_line_step2.frag',
+        'shaders/base_03_line_step3.frag',
+        'shaders/base_03_line_step4.frag',
       ]
     },
     {
       'file': 'shaders/base_02_polygon_step1.frag',
-      'title': '多边形',
-    },
-    {
-      'file': 'shaders/fancy_03.frag',
       'title': '变换',
     },
-    {
-      'file': 'shaders/fancy_04.frag',
-      'title': '创意图形',
-    },
+
     // {
     //   'file': 'shaders/fancy_05.frag',
     //   'title': '波浪线',
@@ -137,8 +152,170 @@ class _SimpleDemoPageState extends State<SimpleDemoPage> {
   }
 
   double time = 0;
+  double threshold = 0.01;
 
+
+  Widget _buildSmoothPanel(int activeIndex){
+    if(activeIndex==1){
+      return Column(
+        children: [
+          RepaintBoundary(
+            child: CustomPaint(
+              size: const Size(300, 300),
+              painter: SmoothPlayerPainter(
+                shader: shader!,
+                threshold: threshold,
+              ),
+            ),
+          ),
+          Slider(value: threshold, onChanged: (v){
+            setState(() {
+              threshold = v;
+            });
+          })
+        ],
+      );
+    }
+    if(activeIndex==2){
+      return Column(
+        children: [
+          RepaintBoundary(
+            child: CustomPaint(
+              size: const Size(300, 300),
+              painter: SmoothWithImagePainter(
+                shader: shader!,
+                image: image!,
+                uThreshold: threshold
+              ),
+            ),
+          ),
+          Slider(value: threshold, onChanged: (v){
+            setState(() {
+              threshold = v;
+            });
+          })
+        ],
+      );
+    }
+    return CustomPaint(
+      size: const Size(300, 300),
+      painter: S2ShaderPainter(shader: shader!),
+    );
+  }
+
+  Widget _buildLine(int activeIndex){
+    if(activeIndex==3){
+      return Column(
+        children: [
+          RepaintBoundary(
+            child: CustomPaint(
+              size: const Size(300, 300),
+              painter: ImageShaderPainterPainter(
+                  shader: shader!,
+                  image: image!,
+              ),
+            ),
+          ),
+          Slider(value: threshold, onChanged: (v){
+            setState(() {
+              threshold = v;
+            });
+          })
+        ],
+      );
+    }
+    return CustomPaint(
+      size: const Size(300, 300),
+      painter: S2ShaderPainter(shader: shader!),
+    );
+  }
+  
   Widget _buildByTab() {
+    if (_activeTab == 'shaders/base_02_smooth_step1.frag') {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    onPressed: _currentStep == 0 ? null : prev,
+                    icon: Icon(Icons.navigate_before)),
+                Expanded(
+                  child: Center(
+                    child: _buildSmoothPanel(_currentStep),
+                  ),
+                ),
+                IconButton(
+                    onPressed: _currentStep == maxPage - 1 ? null : next,
+                    icon: Icon(Icons.navigate_next_sharp)),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    '${_currentStep + 1}/$maxPage',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 20,),
+                  if(_currentStep==1||_currentStep==2)
+                  Text(
+                    'threshold:${threshold.toStringAsFixed(3)}',
+                    style: TextStyle(fontSize: 12,color: Colors.grey),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    if(_activeTab=="shaders/base_03_line_step1.frag"){
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    onPressed: _currentStep == 0 ? null : prev,
+                    icon: Icon(Icons.navigate_before)),
+                Expanded(
+                  child: Center(
+                    child: _buildLine(_currentStep),
+                  ),
+                ),
+                IconButton(
+                    onPressed: _currentStep == maxPage - 1 ? null : next,
+                    icon: Icon(Icons.navigate_next_sharp)),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    '${_currentStep + 1}/$maxPage',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 20,),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     if (_activeTab == 'shaders/eff_02_step1.frag' ||
         _activeTab == 'shaders/fancy_03.frag' ||
         _activeTab == 'shaders/fancy_04.frag' ||
@@ -176,7 +353,7 @@ class _SimpleDemoPageState extends State<SimpleDemoPage> {
                   icon: Icon(Icons.navigate_before)),
               Expanded(
                 child: Center(
-                  child: _currentStep == 5 || _currentStep == 6
+                  child: _currentStep == 3 || _currentStep == 6
                       ? CustomPaint(
                           size: const Size(300, 300),
                           painter:

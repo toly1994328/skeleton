@@ -7,19 +7,13 @@ uniform vec2 uSize;
 
 float circle(vec2 coo, float r) {
     float len = length(coo);
-    return step(len, r);
+    return smoothstep(r, r + 0.1, len);
 }
 
 void main() {
     vec2 coo = FlutterFragCoord() / uSize;
     coo = coo * 2 - 1;
-    float ret = 0;
-    float c0 = circle(coo, 0.5);
-    vec2 offset = vec2(-0.6, -0.6);
-    float c1 = circle(coo + offset, 0.2);
-    float c2 = circle(coo - offset*.7, 0.2);
-    ret = c0 + c1 + c2;
-    ret = min(ret, 1.0);
+    float ret = circle(coo, 0.4);
     fragColor = vec4(ret, ret, ret, 1);
 }
 

@@ -5,12 +5,12 @@ precision mediump float;
 
 out vec4 fragColor;
 uniform vec2 uSize;
-uniform sampler2D uTexture;
 
 void main() {
     vec2 coo = FlutterFragCoord().xy / uSize;
-    float count = 50.0;
-    float x = floor(coo.x * count)/ count;
-    fragColor = texture(uTexture, vec2(x,coo.y));
+    float radius = 0.5;
+    float d = length(coo-0.5);
+    float r = step(radius, d);
+    fragColor = vec4(r, r, r, 1);
 }
 

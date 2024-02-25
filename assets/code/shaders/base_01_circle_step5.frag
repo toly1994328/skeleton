@@ -7,7 +7,7 @@ uniform vec2 uSize;
 
 float circle(vec2 coo, float r) {
     float len = length(coo);
-    return step(len, r)/2;
+    return step(len, r);
 }
 
 void main() {
@@ -19,6 +19,7 @@ void main() {
     float c1 = circle(coo + offset, 0.2);
     float c2 = circle(coo - offset*.7, 0.2);
     ret = c0 + c1 + c2;
+    ret *=0.5;
     ret = min(ret, 1.0);
     fragColor = vec4(ret, ret, ret, 1);
 }
