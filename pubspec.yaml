@@ -87,7 +87,14 @@ flutter:
     - shaders/base_01_circle_step5.frag
     - shaders/base_01_circle_step6.frag
     - shaders/base_01_circle_step7.frag
+    - shaders/base_02_smooth_step1.frag
+    - shaders/base_02_smooth_step2.frag
+    - shaders/base_02_smooth_step3.frag
     - shaders/base_02_polygon_step1.frag
+    - shaders/base_03_line_step1.frag
+    - shaders/base_03_line_step2.frag
+    - shaders/base_03_line_step3.frag
+    - shaders/base_03_line_step4.frag
     - shaders/eff_02_step1.frag
     - shaders/image.frag
     - shaders/se_dark.frag

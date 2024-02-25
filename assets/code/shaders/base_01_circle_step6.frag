@@ -18,11 +18,17 @@ void main() {
     float c0 = circle(coo, 0.5);
     vec2 offset = vec2(-0.6, -0.6);
     float c1 = circle(coo + offset, 0.2);
-    float c2 = circle(coo - offset*.7, 0.2);
+    float c2 = circle(coo - offset * .7, 0.2);
     ret = c0 + c1 + c2;
-    ret *=0.5;
     ret = min(ret, 1.0);
-    vec4 color = texture(uTexture, vec2(x,coo.y));
+
+
+    vec2 picCoo = (coo + 1) / 2;
+    vec4 color = texture(uTexture, picCoo);
+
+
+    color = ret == 1 ? color : vec4(0, 1, 1, 1);
+
     fragColor = color;
 }
 
