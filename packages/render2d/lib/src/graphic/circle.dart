@@ -6,7 +6,6 @@ import 'path_builder.dart';
 /// 圆
 ///
 
-
 class CircleShape extends Shape {
   double cx = 0;
   double cy = 0;
@@ -22,7 +21,6 @@ class CircleShape extends Shape {
   String toString() {
     return 'CircleShape{cx: $cx, cy: $cy, r: $r}';
   }
-
 }
 
 class Circle extends PathBuilder {
@@ -33,8 +31,8 @@ class Circle extends PathBuilder {
   @override
   Path builder() {
     Rect rect = Rect.fromCircle(
-      center: Offset(shape.cx-1, shape.cy-1),
-      radius: shape.r-1,
+      center: Offset(shape.cx, shape.cy),
+      radius: shape.r,
     );
     Path path = Path();
     path.arcTo(rect, 0, pi, false);

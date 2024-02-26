@@ -16,9 +16,11 @@ class BoxDrawable extends Drawable {
   final bool dash;
   final String value;
   TextPainter _textPainter = TextPainter(
-      textDirection: TextDirection.ltr, textAlign: TextAlign.center);
+    textDirection: TextDirection.ltr,
+    textAlign: TextAlign.center,
+  );
 
-  BoxDrawable(this.zone, this.value,{this.dash=false});
+  BoxDrawable(this.zone, this.value, {this.dash = false});
 
   @override
   Path get path {
@@ -62,13 +64,13 @@ class StackDrawable extends Drawable {
 
   StackDrawable(this.size, this.name);
 
-  void add(BoxDrawable box){
+  void add(BoxDrawable box) {
     boxes.add(box);
   }
 
   @override
   void draw(Canvas canvas) {
-    for (int i = 0; i <boxes.length; i++) {
+    for (int i = 0; i < boxes.length; i++) {
       boxes[i].draw(canvas);
     }
     Paint painter = Paint()
@@ -82,14 +84,16 @@ class StackDrawable extends Drawable {
         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold));
     _textPainter.layout();
     Size textSize = _textPainter.size;
-    _textPainter.paint(canvas, Offset((viewPort.width-textSize.width)/2, textSize.height/2));
+    _textPainter.paint(canvas,
+        Offset((viewPort.width - textSize.width) / 2, textSize.height / 2));
   }
 
   @override
   // TODO: implement path
   Path get path {
     Path path = Path();
-    path..moveTo(0, -size.height)
+    path
+      ..moveTo(0, -size.height)
       ..relativeLineTo(0, size.height)
       ..relativeLineTo(size.width, 0)
       ..relativeLineTo(0, -size.height);
@@ -100,5 +104,5 @@ class StackDrawable extends Drawable {
   }
 
   @override
-  Rect get viewPort => Offset.zero&size;
+  Rect get viewPort => Offset.zero & size;
 }

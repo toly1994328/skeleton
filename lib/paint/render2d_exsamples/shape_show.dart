@@ -14,8 +14,9 @@ class ShapeShow extends StatelessWidget {
       height: 100,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        // color: Colors.red,
-        border: Border.all(),
+        color: Colors.grey,
+        // border: Border.all(),
+
         // borderRadius: BorderRadius.circular(10)
       ),
       child: CustomPaint(
@@ -44,5 +45,5 @@ class ShapePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

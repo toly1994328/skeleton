@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paint/structure/array_painter.dart';
 
+import '../components/coordinate.dart';
+import 'draft_paper.dart';
 import 'stack_painter.dart';
 
 class StructureView extends StatefulWidget {
@@ -28,14 +30,18 @@ class _StructureViewState extends State<StructureView> {
       child: Material(
         color: Colors.white,
         child: Stack(fit: StackFit.expand, children: [
-          CustomPaint(
-            painter: StackPainter(activeGrid: _activeGrid,arrayNode: ArrayNode<int>(
-              name: 'list',
-              array: [1,9,9,4,0,3],
-              activeIndex: activeIndex,
-              activeIndexName: 'index'
-            )),
-          ),
+          if(_activeGrid)
+            GridBackGround(),
+          DraftPaper(),
+          // CustomPaint(
+          //   painter: StackPainter(activeGrid: _activeGrid,arrayNode: ArrayNode<int>(
+          //     name: 'list',
+          //     array: [1,9,9,4,0,3],
+          //     activeIndex: activeIndex,
+          //     activeIndexName: 'index'
+          //   )),
+          // ),
+
           Positioned(
             top: 10,
             right: 10,
@@ -61,4 +67,30 @@ class _StructureViewState extends State<StructureView> {
       _activeGrid = !_activeGrid;
     });
   }
+}
+
+class GridBackGround extends StatelessWidget {
+  const GridBackGround({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(painter: GridPainter(),);
+  }
+}
+
+class GridPainter extends CustomPainter{
+
+  final Coordinate coordinate = Coordinate(step: 20);
+
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    coordinate.paint(canvas, size);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+
 }

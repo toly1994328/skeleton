@@ -121,6 +121,9 @@ flutter:
     - family: TolyIcon
       fonts:
         - asset: assets/icon_font/iconfont.ttf
+    - family: Inconsolata
+      fonts:
+        - asset: assets/fonts/Inconsolata-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
