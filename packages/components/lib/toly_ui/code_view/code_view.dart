@@ -49,7 +49,11 @@ class _CodeViewState extends State<CodeView> {
   }
 
   void _loadContent() async {
-    content = await rootBundle.loadString(widget.path);
-    setState(() {});
+    try {
+      content = await rootBundle.loadString(widget.path);
+      setState(() {});
+    } catch (e) {
+
+    }
   }
 }

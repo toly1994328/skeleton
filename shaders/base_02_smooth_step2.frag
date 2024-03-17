@@ -1,8 +1,8 @@
 #version 460 core
 #include <flutter/runtime_effect.glsl>
 precision mediump float;
-uniform float uThreshold;
 uniform vec2 uSize;
+uniform float uThreshold;
 out vec4 fragColor;
 
 

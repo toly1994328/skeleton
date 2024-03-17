@@ -1,10 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-class S2ShaderPainter extends CustomPainter {
-  S2ShaderPainter({
-    required this.shader,
-  });
+/// 具有尺寸入参的 painter
+class SizeShaderPainter extends CustomPainter {
+  SizeShaderPainter({required this.shader});
 
   FragmentShader shader;
 
@@ -20,5 +19,6 @@ class S2ShaderPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant SizeShaderPainter oldDelegate) =>
+      oldDelegate.shader != shader;
 }

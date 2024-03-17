@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'color_coo_page.dart';
+import '01_color_coo/color_coo_page.dart';
 import 'effect_demo/effect_page.dart';
 import 'fancy_demo/fany_page.dart';
-import 'image2_shader_demo.dart';
-import 'image_shader_demo.dart';
-import 'rect_mask_shader_demo.dart';
-import 'simple_demo/simple_demo_page.dart';
-import 'var_demos/var_page.dart';
+import '03_shape/shape_page.dart';
+import '02_var_demos/var_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,11 +19,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Simple Shader Demo',
       theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        useMaterial3: true,
-        fontFamily: '宋体'
-      ),
+          colorSchemeSeed: Colors.blue,
+          scaffoldBackgroundColor: Colors.white,
+          useMaterial3: true,
+          fontFamily: '宋体'),
       home: const HomePage(),
     );
   }
@@ -47,33 +43,24 @@ class HomePage extends StatelessWidget {
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             tabs: [
-            Tab(text: '颜色坐标',),
-            Tab(text: '变量传参',),
-            Tab(text: '图形区域',),
-            Tab(text: '贴图特效',),
-            Tab(text: '炫彩创意',),
-          ],
+              Tab(text: '颜色坐标'),
+              Tab(text: '变量传参'),
+              Tab(text: '图形区域'),
+              Tab(text: '贴图特效'),
+              Tab(text: '炫彩创意'),
+            ],
           ),
         ),
         body: const TabBarView(
           children: [
-
             ColorShaderDemo(),
             VarPage(),
-            SimpleDemoPage(),
-
+            ShapeDemoPage(),
             EffectPage(),
-            // RectMaskShaderDemo(),
-            // ImageShaderDemo(),
-            // Image2ShaderDemo(),
-
             FancyPage(),
-
           ],
         ),
       ),
     );
   }
 }
-
-

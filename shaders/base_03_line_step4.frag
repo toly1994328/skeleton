@@ -5,6 +5,7 @@ precision mediump float;
 out vec4 fragColor;
 uniform sampler2D uTexture;
 uniform vec2 uSize;
+uniform float uProgress;
 
 //// coo        :  像素坐标
 //// r          :  圆半径
@@ -35,7 +36,7 @@ void main() {
     for(int i=0;i<40;i++){
         float radius = 0.025*i;
         float t = 0.01;
-        float w = 0.05;
+        float w = mix(0.0,0.05,uProgress);
         ret += circle_line(coo, radius, w, t, 0.5);
     }
     vec2 picCoo = (coo + 1) / 2;

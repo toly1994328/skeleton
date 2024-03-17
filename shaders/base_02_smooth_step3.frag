@@ -9,7 +9,7 @@ out vec4 fragColor;
 
 float circle(vec2 coo, float r) {
     float len = length(coo);
-    return 1 - smoothstep(r, r + 0.2, len);
+    return 1 - smoothstep(r, r + uThreshold, len);
 }
 
 void main() {

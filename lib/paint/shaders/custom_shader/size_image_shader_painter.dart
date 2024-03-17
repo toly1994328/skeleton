@@ -1,13 +1,10 @@
-import 'dart:ui';
 import 'dart:ui' as ui;
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
-
-
-
-class ImageShaderPainterPainter extends CustomPainter {
-  ImageShaderPainterPainter({
+/// 具有尺寸入参的 painter
+class SizeImageShaderPainter extends CustomPainter {
+  SizeImageShaderPainter({
     required this.shader,
     required this.image,
   });
@@ -20,8 +17,8 @@ class ImageShaderPainterPainter extends CustomPainter {
     shader.setFloat(0, size.width);
     shader.setFloat(1, size.height);
     shader.setImageSampler(0, image);
-
     final paint = Paint()..shader = shader;
+
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
       paint,
@@ -29,25 +26,7 @@ class ImageShaderPainterPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant SizeImageShaderPainter oldDelegate) =>
+      oldDelegate.shader != shader||oldDelegate.image!=image;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
